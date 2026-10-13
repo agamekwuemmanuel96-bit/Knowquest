@@ -1,40 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KnowQuest</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #0b1020;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-    h1 { color: #34d399; margin-bottom: 8px; }
-    p { color: #cbd5e1; }
-    button {
-      background: #34d399;
-      color: #0b1020;
-      border: none;
-      border-radius: 12px;
-      padding: 14px 28px;
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: 20px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KnowQuest - Legends of Knowledge</title>
+<style>
+:root{--bg:#0b1020;--card:#141b34;--line:#243056;--green:#34d399;--gold:#fbbf24;--text:#f1f5f9;--muted:#a8b3cf}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.4}
+.wrap{max-width:480px;margin:0 auto;padding:16px 16px 48px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+header h1{margin:0;font-size:22px;color:var(--green)}
+header small{display:block;color:var(--muted);font-size:12px}
+.icon-btn{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:12px;width:44px;height:44px;font-size:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+.profile{display:flex;gap:14px;align-items:center}
+.avatar{width:84px;height:84px;border-radius:16px;flex-shrink:0}
+.pinfo{flex:1;min-width:0}
+.pinfo h2{margin:0;font-size:18px}
+.rank{color:var(--gold);font-size:14px;margin:2px 0 8px}
+.bar{height:12px;background:#0b1020;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#10b981,#34d399);width:0}
+.aptext{font-size:12px;color:var(--muted);margin-top:6px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+.stat b{display:block;font-size:22px}
+.stat span{font-size:12px;color:var(--muted)}
+.main-btn{width:100%;background:var(--green);color:#0b1020;border:none;border-radius:14px;padding:16px;font-size:18px;font-weight:bold;margin-bottom:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.sec-btn{background:var(--card);color:var(--text);border:1px solid var(--green);border-radius:12px;padding:12px 4px;font-size:13px;font-weight:bold}
+h3{margin:18px 0 10px;font-size:16px}
+.cats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cat{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:14px;padding:16px 8px;font-size:15px;font-weight:bold}
+.cat:last-child{grid-column:span 2}
+.ach{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.ach:last-child{border-bottom:none}
+.badge{font-size:26px}
+.ach small{display:block;color:var(--muted)}
+.note{font-size:12px;color:var(--muted);text-align:center;margin-top:20px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fff;color:#0b1020;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center}
+#toast.show{opacity:1}
+button{cursor:pointer;font-family:inherit}
+</style>
 </head>
 <body>
-  <h1>KnowQuest</h1>
-  <p>Learn. Evolve. Become Legendary.</p>
-  <button onclick="alert('KnowQuest is alive!')">Start Learning</button>
+<div class="wrap">
+
+  <header>
+    <div>
+      <h1>KnowQuest</h1>
+      <small>Learn. Evolve. Become Legendary.</small>
+    </div>
+    <button class="icon-btn" aria-label="Friends (coming later)" onclick="soon('Friends')">&#128101;</button>
+  </header>
+
+  <section class="card profile">
+    <svg class="avatar" viewBox="0 0 100 100" role="img" aria-label="Sample avatar">
+      <rect width="100" height="100" fill="#1e3a5f"/>
+      <path d="M15 100 Q50 62 85 100 Z" fill="#34d399"/>
+      <rect x="43" y="56" width="14" height="14" fill="#a9724f"/>
+      <circle cx="50" cy="42" r="19" fill="#c68a63"/>
+      <path d="M30 40 Q32 18 50 18 Q68 18 70 40 Q60 28 50 28 Q40 28 30 40Z" fill="#1b1b1b"/>
+      <circle cx="43" cy="44" r="2.2" fill="#1b1b1b"/>
+      <circle cx="57" cy="44" r="2.2" fill="#1b1b1b"/>
+      <path d="M43 52 Q50 57 57 52" stroke="#1b1b1b" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="pinfo">
+      <h2 id="pname"></h2>
+      <div class="rank" id="prank"></div>
+      <div class="bar" role="progressbar" aria-label="Progress to next level" id="pbar"><div class="fill" id="pfill"></div></div>
+      <div class="aptext" id="aptext"></div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><b id="streak"></b><span>&#128293; Day streak</span></div>
+    <div class="stat"><b id="topics"></b><span>&#9989; Topics completed</span></div>
+  </section>
+
+  <button class="main-btn" onclick="soon('Start Learning')">&#9876;&#65039; Start Learning</button>
+  <div class="grid3">
+    <button class="sec-btn" onclick="soon('Daily Quest')">Daily Quest</button>
+    <button class="sec-btn" onclick="soon('Challenge')">Challenge</button>
+    <button class="sec-btn" onclick="soon('Continue Learning')">Continue Learning</button>
+  </div>
+
+  <h3>Choose your path</h3>
+  <section class="cats">
+    <button class="cat" onclick="soon('SS1')">SS1</button>
+    <button class="cat" onclick="soon('SS2')">SS2</button>
+    <button class="cat" onclick="soon('SS3')">SS3</button>
+    <button class="cat" onclick="soon('WAEC Preparation')">WAEC Preparation</button>
+    <button class="cat" onclick="soon('JAMB Preparation')">JAMB Preparation</button>
+  </section>
+
+  <h3>Recent achievements</h3>
+  <section class="card" id="achlist"></section>
+
+  <p class="note">Sample data only. Your real progress will be saved after accounts are added in a later phase.</p>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// TEMPORARY SAMPLE DATA (will be replaced by real saved data later)
+var player = { name: "Player One", ap: 380, streak: 4, topics: 6 };
+var achievements = [
+  { icon: "\uD83C\uDF1F", title: "First Steps", text: "Joined KnowQuest" },
+  { icon: "\uD83D\uDD25", title: "On Fire", text: "Reached a 3-day streak" },
+  { icon: "\uD83D\uDCDA", title: "Scholar Begins", text: "Completed 5 topics" }
+];
+var ranks = ["Novice", "Apprentice", "Scholar", "Sage", "Legend"];
+
+// AP needed to reach a level. Each level needs more than the last.
+function apForLevel(l) { return 50 * l * (l - 1); }
+
+var level = 1;
+while (player.ap >= apForLevel(level + 1)) { level++; }
+var startAP = apForLevel(level);
+var nextAP = apForLevel(level + 1);
+var pct = Math.round((player.ap - startAP) / (nextAP - startAP) * 100);
+var rank = ranks[Math.min(Math.floor((level - 1) / 2), ranks.length - 1)];
+
+document.getElementById("pname").textContent = player.name;
+document.getElementById("prank").textContent = "Level " + level + " \u2022 " + rank;
+document.getElementById("pfill").style.width = pct + "%";
+document.getElementById("pbar").setAttribute("aria-valuenow", pct);
+document.getElementById("aptext").textContent = player.ap + " AP \u2022 " + (nextAP - player.ap) + " AP to Level " + (level + 1);
+document.getElementById("streak").textContent = player.streak;
+document.getElementById("topics").textContent = player.topics;
+
+var list = document.getElementById("achlist");
+achievements.forEach(function (a) {
+  var row = document.createElement("div");
+  row.className = "ach";
+  row.innerHTML = '<span class="badge">' + a.icon + '</span><div><b>' + a.title + '</b><small>' + a.text + '</small></div>';
+  list.appendChild(row);
+});
+
+function soon(label) {
+  var t = document.getElementById("toast");
+  t.textContent = label + " - coming in the next slice";
+  t.classList.add("show");
+  clearTimeout(window._t);
+  window._t = setTimeout(function () { t.classList.remove("show"); }, 2200);
+}
+</script>
 </body>
 </html>
