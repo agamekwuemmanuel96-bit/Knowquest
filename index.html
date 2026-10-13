@@ -5,58 +5,87 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KnowQuest - Legends of Knowledge</title>
 <style>
-:root{--bg:#0b1020;--card:#141b34;--line:#243056;--green:#34d399;--gold:#fbbf24;--red:#f87171;--text:#f1f5f9;--muted:#a8b3cf}
+:root{--bg:#0b2a7a;--bg2:#071a4d;--ink:#0b1b4d;--muted:#5b6b94;--line:#d6defa;--red:#e11d48;--green:#22c55e;--onGreen:#052e16;--gold:#fbbf24}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.4}
+body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 70%);color:#fff;font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.4}
 .wrap{max-width:480px;margin:0 auto;padding:16px 16px 48px}
 .view{display:none}
 .view.active{display:block}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-header h1{margin:0;font-size:22px;color:var(--green)}
-header small{display:block;color:var(--muted);font-size:12px}
-.icon-btn{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:12px;width:44px;height:44px;font-size:20px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+header h1{margin:0;font-size:26px}
+header small{display:block;color:#c7d4ff;font-size:13px}
+.icon-btn{background:#fff;border:none;color:var(--ink);border-radius:12px;width:44px;height:44px;font-size:20px}
+.card{background:#fff;color:var(--ink);border-radius:18px;padding:16px;margin-bottom:14px}
 .profile{display:flex;gap:14px;align-items:center}
-.avatar{width:84px;height:84px;border-radius:16px;flex-shrink:0}
+.avatar-btn{position:relative;border:none;background:none;padding:0;flex-shrink:0;width:88px;height:88px}
+.avatar{width:88px;height:88px;border-radius:18px;display:block}
+.pencil{position:absolute;right:-4px;bottom:-4px;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-size:14px;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
 .pinfo{flex:1;min-width:0}
-.pinfo h2{margin:0;font-size:18px}
-.rank{color:var(--gold);font-size:14px;margin:2px 0 8px}
-.bar{height:12px;background:#0b1020;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.fill{height:100%;background:linear-gradient(90deg,#10b981,#34d399);width:0;transition:width .4s}
+.pinfo h2{margin:0;font-size:19px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank{color:var(--red);font-weight:bold;font-size:14px;margin:2px 0 8px}
+.bar{height:12px;background:#e6ecff;border-radius:8px;overflow:hidden}
+.fill{height:100%;background:var(--red);width:0;transition:width .4s;border-radius:8px}
 .aptext{font-size:12px;color:var(--muted);margin-top:6px}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+.stat{background:#fff;color:var(--ink);border-radius:16px;padding:12px;text-align:center;border:none;font-family:inherit}
 .stat b{display:block;font-size:22px}
 .stat span{font-size:12px;color:var(--muted)}
-.main-btn{width:100%;background:var(--green);color:#0b1020;border:none;border-radius:14px;padding:16px;font-size:18px;font-weight:bold;margin-bottom:12px}
+.stat.status{background:var(--red);color:#fff;cursor:pointer}
+.stat.status b{font-size:20px}
+.stat.status span{color:#ffe4ea}
+.main-btn{width:100%;background:var(--green);color:var(--onGreen);border:none;border-radius:14px;padding:16px;font-size:18px;font-weight:bold;margin-bottom:12px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
-.sec-btn{background:var(--card);color:var(--text);border:1px solid var(--green);border-radius:12px;padding:12px 4px;font-size:13px;font-weight:bold}
-h3{margin:18px 0 10px;font-size:16px}
+.sec-btn{background:#fff;color:var(--ink);border:none;border-bottom:4px solid var(--green);border-radius:12px;padding:12px 4px;font-size:13px;font-weight:bold}
+.wide-btn{width:100%;padding:14px;font-size:15px;margin-bottom:10px}
+h3{margin:18px 0 10px;font-size:17px;color:#fff}
 .cats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.cat{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:14px;padding:16px 8px;font-size:15px;font-weight:bold}
+.cat{background:#fff;color:var(--ink);border:none;border-left:6px solid var(--red);border-radius:14px;padding:16px 8px;font-size:15px;font-weight:bold}
 .cat:last-child{grid-column:span 2}
 .ach{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
 .ach:last-child{border-bottom:none}
 .badge{font-size:26px}
 .ach small{display:block;color:var(--muted)}
-.note{font-size:12px;color:var(--muted);text-align:center;margin-top:20px}
-.linkbtn{background:none;border:none;color:var(--muted);text-decoration:underline;font-size:12px;display:block;margin:8px auto 0}
-.back{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:14px}
-.subject{width:100%;text-align:left;background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:14px;padding:16px;margin-bottom:10px;font-size:17px;font-weight:bold}
-.subject small{display:block;color:var(--muted);font-weight:normal;font-size:13px;margin-top:2px}
-.qmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:8px}
-.qtype{color:var(--gold)}
-.qtext{font-size:18px;margin:12px 0 16px}
-.opt{width:100%;text-align:left;background:#0f1630;border:2px solid var(--line);color:var(--text);border-radius:12px;padding:14px;margin-bottom:10px;font-size:16px}
-.opt.correct{border-color:var(--green);background:#0f3d31}
-.opt.wrong{border-color:var(--red);background:#3d1620}
-.explain{display:none;border-left:4px solid var(--gold);background:var(--card);padding:12px;border-radius:8px;margin:6px 0 12px;font-size:15px}
-.big{font-size:44px;font-weight:bold;text-align:center;margin:6px 0}
+.empty{color:var(--muted);font-size:14px}
+.note{font-size:12px;color:#c7d4ff;text-align:center;margin-top:20px}
+.linkbtn{background:none;border:none;color:#c7d4ff;text-decoration:underline;font-size:12px;display:block;margin:8px auto 0}
+.back{background:#fff;border:none;color:var(--ink);border-radius:12px;padding:10px 14px;font-size:14px;font-weight:bold;margin-bottom:14px}
+.subject{width:100%;text-align:left;background:#fff;color:var(--ink);border:none;border-radius:14px;padding:14px 16px;margin-bottom:10px;font-size:17px;font-weight:bold}
+.subject.sci{border-left:6px solid #2f6bff}
+.subject.art{border-left:6px solid var(--red)}
+.qmeta{display:flex;justify-content:space-between;color:#c7d4ff;font-size:13px;margin-bottom:8px}
+.qtype{color:var(--gold);font-weight:bold}
+.qbar{height:10px;background:rgba(255,255,255,.25);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.qbar .fill{background:var(--green)}
+.qtext{font-size:18px;font-weight:bold}
+.opt{width:100%;text-align:left;background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;font-size:16px}
+.opt.correct{border-color:var(--green);background:#dcfce7}
+.opt.wrong{border-color:var(--red);background:#ffe4e9}
+.explain{display:none;background:#fff8e1;color:var(--ink);border-left:5px solid var(--gold);padding:12px;border-radius:8px;margin:6px 0 12px;font-size:15px}
+.big{font-size:46px;font-weight:bold;text-align:center;margin:6px 0;color:var(--red)}
 .center{text-align:center}
-.apline{color:var(--gold);font-size:18px;font-weight:bold;text-align:center;margin:6px 0}
+.apline{color:var(--ink);font-size:20px;font-weight:bold;text-align:center;margin:6px 0}
+.small{font-size:13px;color:var(--muted);text-align:center;margin:4px 0}
+.up{color:var(--red);font-weight:bold;text-align:center;margin-top:8px}
+.rk{display:flex;justify-content:space-between;align-items:center;background:#fff;color:var(--ink);border-radius:14px;padding:14px 16px;margin-bottom:10px;border:3px solid #fff}
+.rk b{font-size:17px}
+.rk small{display:block;color:var(--muted)}
+.rk.here{border-color:var(--red)}
+.rk .tag{background:var(--red);color:#fff;border-radius:10px;padding:4px 10px;font-size:12px;font-weight:bold}
+.avprev{width:150px;height:150px;margin:0 auto 12px}
+.avprev svg{width:150px;height:150px;border-radius:24px;display:block}
+.nameinput{width:100%;border:2px solid var(--line);border-radius:12px;padding:12px;font-size:16px;text-align:center;color:var(--ink);font-family:inherit}
+.optlabel{font-weight:bold;margin:12px 0 8px}
+.optlabel:first-child{margin-top:0}
+.swatches{display:flex;flex-wrap:wrap;gap:10px}
+.sw{width:42px;height:42px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line)}
+.sw.sel{box-shadow:0 0 0 3px var(--red)}
+.chip{background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:20px;padding:8px 14px;font-size:14px;font-weight:bold}
+.chip.sel{border-color:var(--red);background:#ffe4e9}
 button{cursor:pointer;font-family:inherit}
-#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fff;color:#0b1020;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fff;color:var(--ink);padding:12px 18px;border-radius:12px;font-size:14px;font-weight:bold;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center}
 #toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
@@ -73,16 +102,7 @@ button{cursor:pointer;font-family:inherit}
   </header>
 
   <section class="card profile">
-    <svg class="avatar" viewBox="0 0 100 100" role="img" aria-label="Sample avatar">
-      <rect width="100" height="100" fill="#1e3a5f"/>
-      <path d="M15 100 Q50 62 85 100 Z" fill="#34d399"/>
-      <rect x="43" y="56" width="14" height="14" fill="#a9724f"/>
-      <circle cx="50" cy="42" r="19" fill="#c68a63"/>
-      <path d="M30 40 Q32 18 50 18 Q68 18 70 40 Q60 28 50 28 Q40 28 30 40Z" fill="#1b1b1b"/>
-      <circle cx="43" cy="44" r="2.2" fill="#1b1b1b"/>
-      <circle cx="57" cy="44" r="2.2" fill="#1b1b1b"/>
-      <path d="M43 52 Q50 57 57 52" stroke="#1b1b1b" stroke-width="2" fill="none" stroke-linecap="round"/>
-    </svg>
+    <button class="avatar-btn" id="avhome" aria-label="Edit your avatar" onclick="openAvatar()"></button>
     <div class="pinfo">
       <h2 id="pname"></h2>
       <div class="rank" id="prank"></div>
@@ -93,7 +113,7 @@ button{cursor:pointer;font-family:inherit}
 
   <section class="stats">
     <div class="stat"><b id="streak"></b><span>&#128293; Day streak</span></div>
-    <div class="stat"><b id="topics"></b><span>&#9989; Topics completed</span></div>
+    <button class="stat status" onclick="showView('status')"><b id="statusname"></b><span>Your status &rsaquo;</span></button>
   </section>
 
   <button class="main-btn" onclick="openSubjects()">&#9876;&#65039; Start Learning</button>
@@ -112,11 +132,11 @@ button{cursor:pointer;font-family:inherit}
     <button class="cat" onclick="soon('JAMB Preparation')">JAMB Preparation</button>
   </section>
 
-  <h3>Recent achievements</h3>
+  <h3>Badges</h3>
   <section class="card" id="achlist"></section>
 
-  <p class="note">Sample data. Progress is saved on this phone only, until accounts are added in a later phase.</p>
-  <button class="linkbtn" onclick="resetProgress()">Reset sample progress</button>
+  <p class="note">Progress is saved on this phone only, until accounts are added in a later phase.</p>
+  <button class="linkbtn" onclick="resetProgress()">Reset my progress</button>
 </div>
 
 <!-- SUBJECTS -->
@@ -124,15 +144,14 @@ button{cursor:pointer;font-family:inherit}
   <button class="back" onclick="showView('home')">&larr; Back</button>
   <h3 style="margin-top:0">Choose a subject</h3>
   <div id="sublist"></div>
-  <p class="note">Sample questions only. More subjects and topics come later.</p>
 </div>
 
 <!-- QUIZ -->
 <div class="view" id="v-quiz">
   <button class="back" onclick="quitQuiz()">&larr; Quit quiz</button>
   <div class="qmeta"><span id="qcount"></span><span class="qtype" id="qtype"></span></div>
-  <div class="bar"><div class="fill" id="qfill"></div></div>
-  <div class="qtext" id="qtext"></div>
+  <div class="qbar"><div class="fill" id="qfill"></div></div>
+  <div class="card"><div class="qtext" id="qtext"></div></div>
   <div id="opts"></div>
   <div class="explain" id="explain"></div>
   <button class="main-btn" id="nextbtn" style="display:none" onclick="nextQ()">Next</button>
@@ -141,24 +160,116 @@ button{cursor:pointer;font-family:inherit}
 <!-- RESULTS -->
 <div class="view" id="v-results">
   <div class="card">
-    <div class="center" style="color:var(--muted)" id="rsubject"></div>
+    <div class="small" id="rsubject"></div>
     <div class="big" id="rscore"></div>
     <div class="center" id="rmsg"></div>
     <div class="apline" id="rap"></div>
-    <div class="center" style="color:var(--green);font-weight:bold" id="rlevel"></div>
+    <div class="small" id="rdetail"></div>
+    <div class="up" id="rlevel"></div>
+    <div class="up" id="rbadge"></div>
   </div>
   <button class="main-btn" onclick="retry()">Try again</button>
-  <button class="sec-btn" style="width:100%;padding:14px;font-size:15px;margin-bottom:10px" onclick="openSubjects()">Choose another subject</button>
-  <button class="sec-btn" style="width:100%;padding:14px;font-size:15px" onclick="showView('home')">Back to dashboard</button>
+  <button class="sec-btn wide-btn" onclick="openSubjects()">Choose another subject</button>
+  <button class="sec-btn wide-btn" onclick="showView('home')">Back to dashboard</button>
+</div>
+
+<!-- STATUS -->
+<div class="view" id="v-status">
+  <button class="back" onclick="showView('home')">&larr; Back</button>
+  <h3 style="margin-top:0">Your status</h3>
+  <div id="statuslist"></div>
+  <p class="note">There are 30 levels. Level 30 needs 20,000 AP.</p>
+</div>
+
+<!-- AVATAR -->
+<div class="view" id="v-avatar">
+  <button class="back" onclick="showView('home')">&larr; Back</button>
+  <div class="card">
+    <div id="avprev" class="avprev"></div>
+    <input id="avname" class="nameinput" maxlength="16" aria-label="Your username" placeholder="Your username">
+  </div>
+  <div class="card" id="avopts"></div>
+  <button class="main-btn" onclick="saveAvatar()">Save avatar</button>
 </div>
 
 </div>
 <div id="toast"></div>
 
 <script>
-// TEMPORARY SAMPLE QUESTIONS (a real question bank comes in a later phase)
-var QUESTIONS = {
-  "Mathematics": [
+// ===== SETTINGS (easy to change later) =====
+var QUIZ_LENGTH = 10;      // questions per quiz
+var AP_PER_CORRECT = 3;    // AP for each correct answer
+var AP_QUEST_BONUS = 10;   // bonus AP for completing a quest (at least half correct)
+var MAX_LEVEL = 30;
+var MAX_AP = 20000;        // AP needed for the highest level
+var SAVE_KEY = "knowquest_v2";
+
+var SUBJECTS = [
+  { id: "mathematics", name: "Mathematics", group: "Science" },
+  { id: "physics", name: "Physics", group: "Science" },
+  { id: "chemistry", name: "Chemistry", group: "Science" },
+  { id: "biology", name: "Biology", group: "Science" },
+  { id: "agric", name: "Agricultural Science", group: "Science" },
+  { id: "english", name: "English Language", group: "Arts & Social" },
+  { id: "literature", name: "Literature in English", group: "Arts & Social" },
+  { id: "government", name: "Government", group: "Arts & Social" },
+  { id: "economics", name: "Economics", group: "Arts & Social" },
+  { id: "geography", name: "Geography", group: "Arts & Social" },
+  { id: "civic", name: "Civic Education", group: "Arts & Social" },
+  { id: "commerce", name: "Commerce", group: "Arts & Social" }
+];
+
+var RANKS = [
+  { name: "Beginner", from: 1 },
+  { name: "Learner", from: 5 },
+  { name: "Explorer", from: 9 },
+  { name: "Scholar", from: 13 },
+  { name: "Pro", from: 17 },
+  { name: "Expert", from: 21 },
+  { name: "Master", from: 25 },
+  { name: "Legend", from: 30 }
+];
+
+var BADGES = [
+  { id: "first", icon: "\uD83C\uDFC1", title: "First Quest", text: "Finished your first quiz",
+    test: function (p, r) { return p.quizzes >= 1; } },
+  { id: "perfect", icon: "\uD83C\uDFAF", title: "Perfect Score", text: "Got every question right",
+    test: function (p, r) { return r.score === r.total; } },
+  { id: "streak3", icon: "\uD83D\uDD25", title: "On Fire", text: "Learned 3 days in a row",
+    test: function (p, r) { return p.streak >= 3; } },
+  { id: "level5", icon: "\u2B50", title: "Rising Star", text: "Reached Level 5",
+    test: function (p, r) { return getLevel(p.ap) >= 5; } }
+];
+
+// ===== AVATAR PARTS =====
+var SKINS = ["#f3d2b3", "#e0a977", "#c68a5a", "#9a6137", "#7a4a2a", "#523019"];
+var HAIRS = ["#1b1b1b", "#4b2e1e", "#7a3b1e", "#d4a017", "#2563eb", "#dc2626"];
+var OUTFITS = ["#ffffff", "#22c55e", "#2563eb", "#dc2626", "#f59e0b", "#7c3aed"];
+var BGS = ["#1e3a8a", "#7f1d1d", "#14532d", "#4c1d95", "#0f766e", "#334155"];
+var STYLES = ["Short", "Afro", "Long", "Bun", "Bald"];
+
+function avatarMarkup(a, cls) {
+  var skin = SKINS[a.skin], hair = HAIRS[a.hair], outfit = OUTFITS[a.outfit], bg = BGS[a.bg], st = a.style;
+  var s = '<rect width="100" height="100" fill="' + bg + '"/>';
+  if (st === 1) { s += '<circle cx="50" cy="30" r="26" fill="' + hair + '"/>'; }
+  if (st === 2) { s += '<rect x="26" y="22" width="48" height="52" rx="16" fill="' + hair + '"/>'; }
+  if (st === 3) { s += '<circle cx="50" cy="13" r="9" fill="' + hair + '"/>'; }
+  s += '<rect x="43" y="56" width="14" height="16" fill="' + skin + '"/>';
+  s += '<rect x="43" y="56" width="14" height="8" fill="#000" opacity="0.12"/>';
+  s += '<path d="M12 100 Q50 60 88 100 Z" fill="' + outfit + '"/>';
+  s += '<path d="M41 72 Q50 84 59 72" stroke="#0b1b4d" stroke-width="2" fill="none" opacity="0.35"/>';
+  s += '<circle cx="50" cy="42" r="19" fill="' + skin + '"/>';
+  if (st === 0 || st === 2 || st === 3) {
+    s += '<path d="M30 40 Q32 18 50 18 Q68 18 70 40 Q60 28 50 28 Q40 28 30 40Z" fill="' + hair + '"/>';
+  }
+  s += '<circle cx="43" cy="44" r="2.2" fill="#1b1b1b"/><circle cx="57" cy="44" r="2.2" fill="#1b1b1b"/>';
+  s += '<path d="M43 52 Q50 57 57 52" stroke="#1b1b1b" stroke-width="2" fill="none" stroke-linecap="round"/>';
+  return '<svg class="' + cls + '" viewBox="0 0 100 100" role="img" aria-label="Your avatar">' + s + '</svg>';
+}
+
+// ===== SAMPLE QUESTIONS (used only until a subject has its own file in the questions folder) =====
+var SAMPLES = {
+  mathematics: [
     { type: "Knowledge", q: "Simplify: 3x + 2x - x", options: ["4x", "5x", "6x", "3x"], answer: 0,
       why: "Combine the numbers in front of x: 3 + 2 - 1 = 4, so the answer is 4x." },
     { type: "Knowledge", q: "Solve for x: 2x + 5 = 17", options: ["5", "6", "7", "11"], answer: 1,
@@ -168,7 +279,7 @@ var QUESTIONS = {
     { type: "Reasoning", q: "The sum of three consecutive whole numbers is 45. What is the largest of the three?", options: ["14", "15", "16", "17"], answer: 2,
       why: "The middle number is 45 / 3 = 15. So the numbers are 14, 15 and 16. The largest is 16." }
   ],
-  "English Language": [
+  english: [
     { type: "Knowledge", q: "Choose the word closest in meaning to 'abundant'.", options: ["Scarce", "Plentiful", "Tiny", "Costly"], answer: 1,
       why: "Abundant means existing in large amounts, which is the same as plentiful. Scarce is the opposite." },
     { type: "Knowledge", q: "Choose the correct option: Neither of the boys ___ present.", options: ["were", "was", "are", "have been"], answer: 1,
@@ -178,7 +289,7 @@ var QUESTIONS = {
     { type: "Reasoning", q: "Which sentence uses 'their' correctly?", options: ["Their going to school.", "The students forgot their books.", "Their is a book here.", "The books are over their."], answer: 1,
       why: "'Their' shows ownership (their books). 'There' is for places, and 'they're' means 'they are'." }
   ],
-  "Biology": [
+  biology: [
     { type: "Knowledge", q: "Which part of a plant cell is the site of photosynthesis?", options: ["Nucleus", "Mitochondrion", "Chloroplast", "Cell wall"], answer: 2,
       why: "Chloroplasts contain chlorophyll, which captures light energy for photosynthesis." },
     { type: "Knowledge", q: "Which blood cells help the body fight infection?", options: ["Red blood cells", "White blood cells", "Platelets", "Plasma"], answer: 1,
@@ -190,87 +301,186 @@ var QUESTIONS = {
   ]
 };
 
-var SAVE_KEY = "knowquest_v1";
-var DEFAULT_PLAYER = { name: "Player One", ap: 380, streak: 4, topics: 6, done: [] };
-var player = loadPlayer();
-var achievements = [
-  { icon: "\uD83C\uDF1F", title: "First Steps", text: "Joined KnowQuest" },
-  { icon: "\uD83D\uDD25", title: "On Fire", text: "Reached a 3-day streak" },
-  { icon: "\uD83D\uDCDA", title: "Scholar Begins", text: "Completed 5 topics" }
-];
-var ranks = ["Novice", "Apprentice", "Scholar", "Sage", "Legend"];
-var run = null;
+// Question files in the "questions" folder call this to hand over their questions.
+var BANK = {};
+function registerQuestions(id, list) { BANK[id] = list; }
 
+function getQuestions(id, done) {
+  if (BANK[id]) { done(BANK[id]); return; }
+  var s = document.createElement("script");
+  s.src = "questions/" + id + ".js";
+  s.onload = function () {
+    if (BANK[id]) { done(BANK[id]); }
+    else if (SAMPLES[id]) { done(SAMPLES[id]); }
+    else { done(null); }
+  };
+  s.onerror = function () {
+    if (SAMPLES[id]) { done(SAMPLES[id]); } else { done(null); }
+  };
+  document.head.appendChild(s);
+}
+
+// ===== PLAYER DATA =====
+var DEFAULT_PLAYER = {
+  name: "Player One", ap: 0, streak: 0, lastDay: "", quizzes: 0, badges: [],
+  avatar: { skin: 1, style: 0, hair: 0, outfit: 1, bg: 0 }
+};
+function clone(o) { return JSON.parse(JSON.stringify(o)); }
 function loadPlayer() {
+  var p = clone(DEFAULT_PLAYER);
   try {
     var s = localStorage.getItem(SAVE_KEY);
-    if (s) { return JSON.parse(s); }
+    if (s) {
+      var saved = JSON.parse(s);
+      for (var k in saved) { p[k] = saved[k]; }
+    }
   } catch (e) {}
-  return JSON.parse(JSON.stringify(DEFAULT_PLAYER));
+  return p;
 }
 function savePlayer() {
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(player)); } catch (e) {}
 }
+var player = loadPlayer();
+var run = null;
+var draft = null;
+
 function resetProgress() {
+  if (!confirm("Reset all your progress on this phone?")) { return; }
   try { localStorage.removeItem(SAVE_KEY); } catch (e) {}
-  player = JSON.parse(JSON.stringify(DEFAULT_PLAYER));
+  player = clone(DEFAULT_PLAYER);
   renderHome();
-  soon("Sample progress reset");
+  toast("Progress reset");
 }
 
-// AP needed to reach a level. Each level needs more than the last.
-function apForLevel(l) { return 50 * l * (l - 1); }
+// ===== LEVELS AND STATUS =====
+// Level 1 starts at 0 AP and level 30 needs 20,000 AP. Each level needs more than the last.
+function apForLevel(l) {
+  if (l <= 1) { return 0; }
+  if (l >= MAX_LEVEL) { return MAX_AP; }
+  return Math.round(MAX_AP * Math.pow((l - 1) / (MAX_LEVEL - 1), 2));
+}
 function getLevel(ap) {
-  var level = 1;
-  while (ap >= apForLevel(level + 1)) { level++; }
-  return level;
+  var l = 1;
+  while (l < MAX_LEVEL && ap >= apForLevel(l + 1)) { l++; }
+  return l;
+}
+function getRank(level) {
+  var r = RANKS[0];
+  for (var i = 0; i < RANKS.length; i++) { if (level >= RANKS[i].from) { r = RANKS[i]; } }
+  return r;
 }
 
-function renderHome() {
-  var level = getLevel(player.ap);
-  var startAP = apForLevel(level);
-  var nextAP = apForLevel(level + 1);
-  var pct = Math.round((player.ap - startAP) / (nextAP - startAP) * 100);
-  var rank = ranks[Math.min(Math.floor((level - 1) / 2), ranks.length - 1)];
-  document.getElementById("pname").textContent = player.name;
-  document.getElementById("prank").textContent = "Level " + level + " \u2022 " + rank;
-  document.getElementById("pfill").style.width = pct + "%";
-  document.getElementById("pbar").setAttribute("aria-valuenow", pct);
-  document.getElementById("aptext").textContent = player.ap + " AP \u2022 " + (nextAP - player.ap) + " AP to Level " + (level + 1);
-  document.getElementById("streak").textContent = player.streak;
-  document.getElementById("topics").textContent = player.topics;
+// ===== STREAK =====
+function dayString(offset) {
+  var d = new Date();
+  d.setDate(d.getDate() + offset);
+  return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+}
+function currentStreak() {
+  if (player.lastDay === dayString(0) || player.lastDay === dayString(-1)) { return player.streak; }
+  return 0;
+}
+function updateStreak() {
+  if (player.lastDay === dayString(0)) { return; }
+  if (player.lastDay === dayString(-1)) { player.streak += 1; } else { player.streak = 1; }
+  player.lastDay = dayString(0);
 }
 
-function renderAchievements() {
-  var list = document.getElementById("achlist");
-  list.innerHTML = "";
-  achievements.forEach(function (a) {
-    var row = document.createElement("div");
-    row.className = "ach";
-    row.innerHTML = '<span class="badge">' + a.icon + '</span><div><b>' + a.title + '</b><small>' + a.text + '</small></div>';
-    list.appendChild(row);
-  });
-}
-
+// ===== SCREENS =====
 function showView(name) {
   var views = document.querySelectorAll(".view");
   for (var i = 0; i < views.length; i++) { views[i].classList.remove("active"); }
   document.getElementById("v-" + name).classList.add("active");
   if (name === "home") { renderHome(); }
+  if (name === "status") { renderStatus(); }
   window.scrollTo(0, 0);
 }
 
+function renderHome() {
+  var level = getLevel(player.ap);
+  var rank = getRank(level);
+  var pct, txt;
+  if (level >= MAX_LEVEL) {
+    pct = 100;
+    txt = player.ap + " AP \u2022 Highest level reached";
+  } else {
+    var s = apForLevel(level), n = apForLevel(level + 1);
+    pct = Math.round((player.ap - s) / (n - s) * 100);
+    txt = player.ap + " AP \u2022 " + (n - player.ap) + " AP to Level " + (level + 1);
+  }
+  document.getElementById("avhome").innerHTML = avatarMarkup(player.avatar, "avatar") + '<span class="pencil">&#9998;</span>';
+  document.getElementById("pname").textContent = player.name;
+  document.getElementById("prank").textContent = "Level " + level + " \u2022 " + rank.name;
+  document.getElementById("pfill").style.width = pct + "%";
+  document.getElementById("pbar").setAttribute("aria-valuenow", pct);
+  document.getElementById("aptext").textContent = txt;
+  document.getElementById("streak").textContent = currentStreak();
+  document.getElementById("statusname").textContent = rank.name;
+  renderBadges();
+}
+
+function renderBadges() {
+  var list = document.getElementById("achlist");
+  list.innerHTML = "";
+  var count = 0;
+  BADGES.forEach(function (b) {
+    if (player.badges.indexOf(b.id) === -1) { return; }
+    count++;
+    var row = document.createElement("div");
+    row.className = "ach";
+    row.innerHTML = '<span class="badge">' + b.icon + '</span><div><b>' + b.title + '</b><small>' + b.text + '</small></div>';
+    list.appendChild(row);
+  });
+  if (count === 0) {
+    var p = document.createElement("div");
+    p.className = "empty";
+    p.textContent = "No badges yet. Finish a quiz to earn your first one.";
+    list.appendChild(p);
+  }
+}
+
+function renderStatus() {
+  var box = document.getElementById("statuslist");
+  box.innerHTML = "";
+  var level = getLevel(player.ap);
+  var current = getRank(level);
+  RANKS.forEach(function (r, i) {
+    var next = RANKS[i + 1];
+    var range = next ? ("Level " + r.from + (next.from - 1 > r.from ? "-" + (next.from - 1) : "")) : ("Level " + r.from);
+    var row = document.createElement("div");
+    row.className = "rk" + (r.name === current.name ? " here" : "");
+    row.innerHTML = '<div><b>' + r.name + '</b><small>' + range + ' \u2022 from ' + apForLevel(r.from) + ' AP</small></div>' +
+      (r.name === current.name ? '<span class="tag">You are here</span>' : '');
+    box.appendChild(row);
+  });
+}
+
+// ===== SUBJECTS AND QUIZ =====
 function openSubjects() {
   var box = document.getElementById("sublist");
   box.innerHTML = "";
-  Object.keys(QUESTIONS).forEach(function (name) {
-    var b = document.createElement("button");
-    b.className = "subject";
-    b.innerHTML = name + '<small>' + QUESTIONS[name].length + ' sample questions</small>';
-    b.onclick = function () { startQuiz(name); };
-    box.appendChild(b);
+  ["Science", "Arts & Social"].forEach(function (g) {
+    var h = document.createElement("h3");
+    h.textContent = g;
+    box.appendChild(h);
+    SUBJECTS.forEach(function (s) {
+      if (s.group !== g) { return; }
+      var b = document.createElement("button");
+      b.className = "subject " + (g === "Science" ? "sci" : "art");
+      b.textContent = s.name;
+      b.onclick = function () { chooseSubject(s); };
+      box.appendChild(b);
+    });
   });
   showView("subjects");
+}
+
+function chooseSubject(s) {
+  toast("Loading " + s.name + "...");
+  getQuestions(s.id, function (list) {
+    if (!list || !list.length) { toast(s.name + " questions are coming soon"); return; }
+    startQuiz(s, list);
+  });
 }
 
 function shuffle(arr) {
@@ -282,12 +492,12 @@ function shuffle(arr) {
   return a;
 }
 
-function startQuiz(subject) {
-  var list = shuffle(QUESTIONS[subject]).map(function (q) {
+function startQuiz(subject, bank) {
+  var list = shuffle(bank).slice(0, QUIZ_LENGTH).map(function (q) {
     var opts = q.options.map(function (t, i) { return { t: t, c: i === q.answer }; });
     return { type: q.type, q: q.q, why: q.why, opts: shuffle(opts) };
   });
-  run = { subject: subject, list: list, idx: 0, score: 0, locked: false };
+  run = { subject: subject, bank: bank, list: list, idx: 0, score: 0, locked: false };
   showView("quiz");
   renderQuestion();
 }
@@ -295,7 +505,7 @@ function startQuiz(subject) {
 function renderQuestion() {
   var q = run.list[run.idx];
   run.locked = false;
-  document.getElementById("qcount").textContent = "Question " + (run.idx + 1) + " of " + run.list.length;
+  document.getElementById("qcount").textContent = run.subject.name + " \u2022 Question " + (run.idx + 1) + " of " + run.list.length;
   document.getElementById("qtype").textContent = q.type;
   document.getElementById("qfill").style.width = (run.idx / run.list.length * 100) + "%";
   document.getElementById("qtext").textContent = q.q;
@@ -310,6 +520,7 @@ function renderQuestion() {
   });
   document.getElementById("explain").style.display = "none";
   document.getElementById("nextbtn").style.display = "none";
+  window.scrollTo(0, 0);
 }
 
 function pick(i) {
@@ -341,41 +552,123 @@ function quitQuiz() {
 }
 
 function finish() {
-  var total = run.list.length;
-  // AP rules: 10 AP per correct answer, +20 bonus for a perfect score. No AP is taken away for wrong answers.
-  var earned = run.score * 10 + (run.score === total ? 20 : 0);
-  var before = getLevel(player.ap);
+  var total = run.list.length, score = run.score;
+  var earned = score * AP_PER_CORRECT;
+  var completed = score * 2 >= total;
+  if (completed) { earned += AP_QUEST_BONUS; }
+  var levelBefore = getLevel(player.ap);
+  var rankBefore = getRank(levelBefore).name;
   player.ap += earned;
-  var after = getLevel(player.ap);
-  if (run.score >= 3 && player.done.indexOf(run.subject) === -1) {
-    player.done.push(run.subject);
-    player.topics += 1;
-  }
+  player.quizzes += 1;
+  updateStreak();
+  var levelAfter = getLevel(player.ap);
+  var rankAfter = getRank(levelAfter).name;
+  var fresh = [];
+  BADGES.forEach(function (b) {
+    if (player.badges.indexOf(b.id) === -1 && b.test(player, { score: score, total: total })) {
+      player.badges.push(b.id);
+      fresh.push(b.title);
+    }
+  });
   savePlayer();
-  document.getElementById("rsubject").textContent = run.subject;
-  document.getElementById("rscore").textContent = run.score + " / " + total;
+
+  document.getElementById("rsubject").textContent = run.subject.name;
+  document.getElementById("rscore").textContent = score + " / " + total;
   var msg = "Keep practising, you will get there!";
-  if (run.score === total) { msg = "Perfect score! Legendary work!"; }
-  else if (run.score >= 3) { msg = "Great job! Read the explanations to master the rest."; }
-  else if (run.score >= 2) { msg = "Good effort. Try again to improve."; }
+  if (score === total) { msg = "Perfect score! Legendary work!"; }
+  else if (score * 10 >= total * 7) { msg = "Great job! Read the explanations to master the rest."; }
+  else if (completed) { msg = "Good effort. Try again to improve."; }
   document.getElementById("rmsg").textContent = msg;
   document.getElementById("rap").textContent = "+" + earned + " AP earned";
-  document.getElementById("rlevel").textContent = (after > before) ? "LEVEL UP! You are now Level " + after : "";
+  var detail = score + " correct x " + AP_PER_CORRECT + " AP";
+  if (completed) { detail += " + " + AP_QUEST_BONUS + " AP quest bonus"; }
+  else { detail += ". Get at least half right to earn the " + AP_QUEST_BONUS + " AP quest bonus."; }
+  document.getElementById("rdetail").textContent = detail;
+  var lv = "";
+  if (levelAfter > levelBefore) { lv = "LEVEL UP! You are now Level " + levelAfter; }
+  if (rankAfter !== rankBefore) { lv += (lv ? " \u2022 " : "") + "New status: " + rankAfter; }
+  document.getElementById("rlevel").textContent = lv;
+  document.getElementById("rbadge").textContent = fresh.length ? "New badge: " + fresh.join(", ") : "";
   showView("results");
 }
 
-function retry() { startQuiz(run.subject); }
+function retry() { startQuiz(run.subject, run.bank); }
 
-function soon(label) {
+// ===== AVATAR EDITOR =====
+function openAvatar() {
+  draft = clone(player.avatar);
+  document.getElementById("avname").value = player.name;
+  renderAvatar();
+  showView("avatar");
+}
+
+function renderAvatar() {
+  document.getElementById("avprev").innerHTML = avatarMarkup(draft, "avatar");
+  var box = document.getElementById("avopts");
+  box.innerHTML = "";
+  addSwatches(box, "Skin tone", "skin", SKINS);
+  addChips(box, "Hairstyle", "style", STYLES);
+  addSwatches(box, "Hair colour", "hair", HAIRS);
+  addSwatches(box, "Outfit", "outfit", OUTFITS);
+  addSwatches(box, "Background", "bg", BGS);
+}
+
+function addLabel(box, text) {
+  var h = document.createElement("div");
+  h.className = "optlabel";
+  h.textContent = text;
+  box.appendChild(h);
+}
+
+function addSwatches(box, label, key, colors) {
+  addLabel(box, label);
+  var row = document.createElement("div");
+  row.className = "swatches";
+  colors.forEach(function (c, i) {
+    var b = document.createElement("button");
+    b.className = "sw" + (draft[key] === i ? " sel" : "");
+    b.style.background = c;
+    b.setAttribute("aria-label", label + " " + (i + 1));
+    b.onclick = function () { draft[key] = i; renderAvatar(); };
+    row.appendChild(b);
+  });
+  box.appendChild(row);
+}
+
+function addChips(box, label, key, names) {
+  addLabel(box, label);
+  var row = document.createElement("div");
+  row.className = "swatches";
+  names.forEach(function (n, i) {
+    var b = document.createElement("button");
+    b.className = "chip" + (draft[key] === i ? " sel" : "");
+    b.textContent = n;
+    b.onclick = function () { draft[key] = i; renderAvatar(); };
+    row.appendChild(b);
+  });
+  box.appendChild(row);
+}
+
+function saveAvatar() {
+  var name = document.getElementById("avname").value.replace(/^\s+|\s+$/g, "");
+  player.name = name ? name.substring(0, 16) : "Player One";
+  player.avatar = draft;
+  savePlayer();
+  showView("home");
+  toast("Avatar saved");
+}
+
+// ===== MESSAGES =====
+function toast(msg) {
   var t = document.getElementById("toast");
-  t.textContent = (label.indexOf("reset") > -1) ? label : label + " - coming in a later slice";
+  t.textContent = msg;
   t.classList.add("show");
   clearTimeout(window._t);
   window._t = setTimeout(function () { t.classList.remove("show"); }, 2200);
 }
+function soon(label) { toast(label + " is coming in a later update"); }
 
 renderHome();
-renderAchievements();
 </script>
 </body>
 </html>
