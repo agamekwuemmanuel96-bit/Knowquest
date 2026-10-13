@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KnowQuest - Legends of Knowledge</title>
 <style>
-:root{--bg:#0b1020;--card:#141b34;--line:#243056;--green:#34d399;--gold:#fbbf24;--text:#f1f5f9;--muted:#a8b3cf}
+:root{--bg:#0b1020;--card:#141b34;--line:#243056;--green:#34d399;--gold:#fbbf24;--red:#f87171;--text:#f1f5f9;--muted:#a8b3cf}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.4}
 .wrap{max-width:480px;margin:0 auto;padding:16px 16px 48px}
+.view{display:none}
+.view.active{display:block}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 header h1{margin:0;font-size:22px;color:var(--green)}
 header small{display:block;color:var(--muted);font-size:12px}
@@ -20,7 +22,7 @@ header small{display:block;color:var(--muted);font-size:12px}
 .pinfo h2{margin:0;font-size:18px}
 .rank{color:var(--gold);font-size:14px;margin:2px 0 8px}
 .bar{height:12px;background:#0b1020;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.fill{height:100%;background:linear-gradient(90deg,#10b981,#34d399);width:0}
+.fill{height:100%;background:linear-gradient(90deg,#10b981,#34d399);width:0;transition:width .4s}
 .aptext{font-size:12px;color:var(--muted);margin-top:6px}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}
@@ -38,14 +40,30 @@ h3{margin:18px 0 10px;font-size:16px}
 .badge{font-size:26px}
 .ach small{display:block;color:var(--muted)}
 .note{font-size:12px;color:var(--muted);text-align:center;margin-top:20px}
+.linkbtn{background:none;border:none;color:var(--muted);text-decoration:underline;font-size:12px;display:block;margin:8px auto 0}
+.back{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:14px}
+.subject{width:100%;text-align:left;background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:14px;padding:16px;margin-bottom:10px;font-size:17px;font-weight:bold}
+.subject small{display:block;color:var(--muted);font-weight:normal;font-size:13px;margin-top:2px}
+.qmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:8px}
+.qtype{color:var(--gold)}
+.qtext{font-size:18px;margin:12px 0 16px}
+.opt{width:100%;text-align:left;background:#0f1630;border:2px solid var(--line);color:var(--text);border-radius:12px;padding:14px;margin-bottom:10px;font-size:16px}
+.opt.correct{border-color:var(--green);background:#0f3d31}
+.opt.wrong{border-color:var(--red);background:#3d1620}
+.explain{display:none;border-left:4px solid var(--gold);background:var(--card);padding:12px;border-radius:8px;margin:6px 0 12px;font-size:15px}
+.big{font-size:44px;font-weight:bold;text-align:center;margin:6px 0}
+.center{text-align:center}
+.apline{color:var(--gold);font-size:18px;font-weight:bold;text-align:center;margin:6px 0}
+button{cursor:pointer;font-family:inherit}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fff;color:#0b1020;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center}
 #toast.show{opacity:1}
-button{cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
 <div class="wrap">
 
+<!-- HOME -->
+<div class="view active" id="v-home">
   <header>
     <div>
       <h1>KnowQuest</h1>
@@ -78,7 +96,7 @@ button{cursor:pointer;font-family:inherit}
     <div class="stat"><b id="topics"></b><span>&#9989; Topics completed</span></div>
   </section>
 
-  <button class="main-btn" onclick="soon('Start Learning')">&#9876;&#65039; Start Learning</button>
+  <button class="main-btn" onclick="openSubjects()">&#9876;&#65039; Start Learning</button>
   <div class="grid3">
     <button class="sec-btn" onclick="soon('Daily Quest')">Daily Quest</button>
     <button class="sec-btn" onclick="soon('Challenge')">Challenge</button>
@@ -97,54 +115,267 @@ button{cursor:pointer;font-family:inherit}
   <h3>Recent achievements</h3>
   <section class="card" id="achlist"></section>
 
-  <p class="note">Sample data only. Your real progress will be saved after accounts are added in a later phase.</p>
+  <p class="note">Sample data. Progress is saved on this phone only, until accounts are added in a later phase.</p>
+  <button class="linkbtn" onclick="resetProgress()">Reset sample progress</button>
 </div>
 
+<!-- SUBJECTS -->
+<div class="view" id="v-subjects">
+  <button class="back" onclick="showView('home')">&larr; Back</button>
+  <h3 style="margin-top:0">Choose a subject</h3>
+  <div id="sublist"></div>
+  <p class="note">Sample questions only. More subjects and topics come later.</p>
+</div>
+
+<!-- QUIZ -->
+<div class="view" id="v-quiz">
+  <button class="back" onclick="quitQuiz()">&larr; Quit quiz</button>
+  <div class="qmeta"><span id="qcount"></span><span class="qtype" id="qtype"></span></div>
+  <div class="bar"><div class="fill" id="qfill"></div></div>
+  <div class="qtext" id="qtext"></div>
+  <div id="opts"></div>
+  <div class="explain" id="explain"></div>
+  <button class="main-btn" id="nextbtn" style="display:none" onclick="nextQ()">Next</button>
+</div>
+
+<!-- RESULTS -->
+<div class="view" id="v-results">
+  <div class="card">
+    <div class="center" style="color:var(--muted)" id="rsubject"></div>
+    <div class="big" id="rscore"></div>
+    <div class="center" id="rmsg"></div>
+    <div class="apline" id="rap"></div>
+    <div class="center" style="color:var(--green);font-weight:bold" id="rlevel"></div>
+  </div>
+  <button class="main-btn" onclick="retry()">Try again</button>
+  <button class="sec-btn" style="width:100%;padding:14px;font-size:15px;margin-bottom:10px" onclick="openSubjects()">Choose another subject</button>
+  <button class="sec-btn" style="width:100%;padding:14px;font-size:15px" onclick="showView('home')">Back to dashboard</button>
+</div>
+
+</div>
 <div id="toast"></div>
 
 <script>
-// TEMPORARY SAMPLE DATA (will be replaced by real saved data later)
-var player = { name: "Player One", ap: 380, streak: 4, topics: 6 };
+// TEMPORARY SAMPLE QUESTIONS (a real question bank comes in a later phase)
+var QUESTIONS = {
+  "Mathematics": [
+    { type: "Knowledge", q: "Simplify: 3x + 2x - x", options: ["4x", "5x", "6x", "3x"], answer: 0,
+      why: "Combine the numbers in front of x: 3 + 2 - 1 = 4, so the answer is 4x." },
+    { type: "Knowledge", q: "Solve for x: 2x + 5 = 17", options: ["5", "6", "7", "11"], answer: 1,
+      why: "Subtract 5 from both sides: 2x = 12. Then divide by 2: x = 6." },
+    { type: "Application", q: "A trader buys 5 books at N400 each and sells all of them for N2,500. What is the profit?", options: ["N100", "N500", "N2,000", "N4,500"], answer: 1,
+      why: "Cost = 5 x 400 = N2,000. Profit = selling price - cost = 2,500 - 2,000 = N500." },
+    { type: "Reasoning", q: "The sum of three consecutive whole numbers is 45. What is the largest of the three?", options: ["14", "15", "16", "17"], answer: 2,
+      why: "The middle number is 45 / 3 = 15. So the numbers are 14, 15 and 16. The largest is 16." }
+  ],
+  "English Language": [
+    { type: "Knowledge", q: "Choose the word closest in meaning to 'abundant'.", options: ["Scarce", "Plentiful", "Tiny", "Costly"], answer: 1,
+      why: "Abundant means existing in large amounts, which is the same as plentiful. Scarce is the opposite." },
+    { type: "Knowledge", q: "Choose the correct option: Neither of the boys ___ present.", options: ["were", "was", "are", "have been"], answer: 1,
+      why: "'Neither' refers to one person at a time, so it takes a singular verb: 'was'." },
+    { type: "Application", q: "'The match was called off because of heavy rain.' What does 'called off' mean here?", options: ["Cancelled", "Started early", "Shouted at", "Repeated"], answer: 0,
+      why: "'Called off' means cancelled. Heavy rain is a common reason to cancel a match." },
+    { type: "Reasoning", q: "Which sentence uses 'their' correctly?", options: ["Their going to school.", "The students forgot their books.", "Their is a book here.", "The books are over their."], answer: 1,
+      why: "'Their' shows ownership (their books). 'There' is for places, and 'they're' means 'they are'." }
+  ],
+  "Biology": [
+    { type: "Knowledge", q: "Which part of a plant cell is the site of photosynthesis?", options: ["Nucleus", "Mitochondrion", "Chloroplast", "Cell wall"], answer: 2,
+      why: "Chloroplasts contain chlorophyll, which captures light energy for photosynthesis." },
+    { type: "Knowledge", q: "Which blood cells help the body fight infection?", options: ["Red blood cells", "White blood cells", "Platelets", "Plasma"], answer: 1,
+      why: "White blood cells defend the body against germs. Red cells carry oxygen, and platelets help blood clot." },
+    { type: "Application", q: "A plant is kept in a dark cupboard for a week and becomes pale and weak. Which process was prevented?", options: ["Photosynthesis", "Digestion", "Excretion", "Fermentation"], answer: 0,
+      why: "Without light, the plant cannot photosynthesise, so it cannot make food or keep its green colour." },
+    { type: "Reasoning", q: "Food chain: grass -> grasshopper -> frog -> snake. If all the frogs disappear, what will most likely happen to the grasshoppers first?", options: ["They will increase", "They will decrease", "They will stay the same", "They will disappear at once"], answer: 0,
+      why: "Frogs eat grasshoppers. With no frogs, fewer grasshoppers are eaten, so their number will rise at first." }
+  ]
+};
+
+var SAVE_KEY = "knowquest_v1";
+var DEFAULT_PLAYER = { name: "Player One", ap: 380, streak: 4, topics: 6, done: [] };
+var player = loadPlayer();
 var achievements = [
   { icon: "\uD83C\uDF1F", title: "First Steps", text: "Joined KnowQuest" },
   { icon: "\uD83D\uDD25", title: "On Fire", text: "Reached a 3-day streak" },
   { icon: "\uD83D\uDCDA", title: "Scholar Begins", text: "Completed 5 topics" }
 ];
 var ranks = ["Novice", "Apprentice", "Scholar", "Sage", "Legend"];
+var run = null;
+
+function loadPlayer() {
+  try {
+    var s = localStorage.getItem(SAVE_KEY);
+    if (s) { return JSON.parse(s); }
+  } catch (e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_PLAYER));
+}
+function savePlayer() {
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(player)); } catch (e) {}
+}
+function resetProgress() {
+  try { localStorage.removeItem(SAVE_KEY); } catch (e) {}
+  player = JSON.parse(JSON.stringify(DEFAULT_PLAYER));
+  renderHome();
+  soon("Sample progress reset");
+}
 
 // AP needed to reach a level. Each level needs more than the last.
 function apForLevel(l) { return 50 * l * (l - 1); }
+function getLevel(ap) {
+  var level = 1;
+  while (ap >= apForLevel(level + 1)) { level++; }
+  return level;
+}
 
-var level = 1;
-while (player.ap >= apForLevel(level + 1)) { level++; }
-var startAP = apForLevel(level);
-var nextAP = apForLevel(level + 1);
-var pct = Math.round((player.ap - startAP) / (nextAP - startAP) * 100);
-var rank = ranks[Math.min(Math.floor((level - 1) / 2), ranks.length - 1)];
+function renderHome() {
+  var level = getLevel(player.ap);
+  var startAP = apForLevel(level);
+  var nextAP = apForLevel(level + 1);
+  var pct = Math.round((player.ap - startAP) / (nextAP - startAP) * 100);
+  var rank = ranks[Math.min(Math.floor((level - 1) / 2), ranks.length - 1)];
+  document.getElementById("pname").textContent = player.name;
+  document.getElementById("prank").textContent = "Level " + level + " \u2022 " + rank;
+  document.getElementById("pfill").style.width = pct + "%";
+  document.getElementById("pbar").setAttribute("aria-valuenow", pct);
+  document.getElementById("aptext").textContent = player.ap + " AP \u2022 " + (nextAP - player.ap) + " AP to Level " + (level + 1);
+  document.getElementById("streak").textContent = player.streak;
+  document.getElementById("topics").textContent = player.topics;
+}
 
-document.getElementById("pname").textContent = player.name;
-document.getElementById("prank").textContent = "Level " + level + " \u2022 " + rank;
-document.getElementById("pfill").style.width = pct + "%";
-document.getElementById("pbar").setAttribute("aria-valuenow", pct);
-document.getElementById("aptext").textContent = player.ap + " AP \u2022 " + (nextAP - player.ap) + " AP to Level " + (level + 1);
-document.getElementById("streak").textContent = player.streak;
-document.getElementById("topics").textContent = player.topics;
+function renderAchievements() {
+  var list = document.getElementById("achlist");
+  list.innerHTML = "";
+  achievements.forEach(function (a) {
+    var row = document.createElement("div");
+    row.className = "ach";
+    row.innerHTML = '<span class="badge">' + a.icon + '</span><div><b>' + a.title + '</b><small>' + a.text + '</small></div>';
+    list.appendChild(row);
+  });
+}
 
-var list = document.getElementById("achlist");
-achievements.forEach(function (a) {
-  var row = document.createElement("div");
-  row.className = "ach";
-  row.innerHTML = '<span class="badge">' + a.icon + '</span><div><b>' + a.title + '</b><small>' + a.text + '</small></div>';
-  list.appendChild(row);
-});
+function showView(name) {
+  var views = document.querySelectorAll(".view");
+  for (var i = 0; i < views.length; i++) { views[i].classList.remove("active"); }
+  document.getElementById("v-" + name).classList.add("active");
+  if (name === "home") { renderHome(); }
+  window.scrollTo(0, 0);
+}
+
+function openSubjects() {
+  var box = document.getElementById("sublist");
+  box.innerHTML = "";
+  Object.keys(QUESTIONS).forEach(function (name) {
+    var b = document.createElement("button");
+    b.className = "subject";
+    b.innerHTML = name + '<small>' + QUESTIONS[name].length + ' sample questions</small>';
+    b.onclick = function () { startQuiz(name); };
+    box.appendChild(b);
+  });
+  showView("subjects");
+}
+
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function startQuiz(subject) {
+  var list = shuffle(QUESTIONS[subject]).map(function (q) {
+    var opts = q.options.map(function (t, i) { return { t: t, c: i === q.answer }; });
+    return { type: q.type, q: q.q, why: q.why, opts: shuffle(opts) };
+  });
+  run = { subject: subject, list: list, idx: 0, score: 0, locked: false };
+  showView("quiz");
+  renderQuestion();
+}
+
+function renderQuestion() {
+  var q = run.list[run.idx];
+  run.locked = false;
+  document.getElementById("qcount").textContent = "Question " + (run.idx + 1) + " of " + run.list.length;
+  document.getElementById("qtype").textContent = q.type;
+  document.getElementById("qfill").style.width = (run.idx / run.list.length * 100) + "%";
+  document.getElementById("qtext").textContent = q.q;
+  var box = document.getElementById("opts");
+  box.innerHTML = "";
+  q.opts.forEach(function (o, i) {
+    var b = document.createElement("button");
+    b.className = "opt";
+    b.textContent = o.t;
+    b.onclick = function () { pick(i); };
+    box.appendChild(b);
+  });
+  document.getElementById("explain").style.display = "none";
+  document.getElementById("nextbtn").style.display = "none";
+}
+
+function pick(i) {
+  if (run.locked) { return; }
+  run.locked = true;
+  var q = run.list[run.idx];
+  var btns = document.getElementById("opts").children;
+  for (var k = 0; k < btns.length; k++) {
+    if (q.opts[k].c) { btns[k].classList.add("correct"); }
+  }
+  if (q.opts[i].c) { run.score++; } else { btns[i].classList.add("wrong"); }
+  var ex = document.getElementById("explain");
+  ex.textContent = (q.opts[i].c ? "Correct! " : "Not quite. ") + q.why;
+  ex.style.display = "block";
+  var nb = document.getElementById("nextbtn");
+  nb.textContent = (run.idx === run.list.length - 1) ? "See results" : "Next";
+  nb.style.display = "block";
+}
+
+function nextQ() {
+  if (run.idx === run.list.length - 1) { finish(); return; }
+  run.idx++;
+  renderQuestion();
+}
+
+function quitQuiz() {
+  run = null;
+  showView("subjects");
+}
+
+function finish() {
+  var total = run.list.length;
+  // AP rules: 10 AP per correct answer, +20 bonus for a perfect score. No AP is taken away for wrong answers.
+  var earned = run.score * 10 + (run.score === total ? 20 : 0);
+  var before = getLevel(player.ap);
+  player.ap += earned;
+  var after = getLevel(player.ap);
+  if (run.score >= 3 && player.done.indexOf(run.subject) === -1) {
+    player.done.push(run.subject);
+    player.topics += 1;
+  }
+  savePlayer();
+  document.getElementById("rsubject").textContent = run.subject;
+  document.getElementById("rscore").textContent = run.score + " / " + total;
+  var msg = "Keep practising, you will get there!";
+  if (run.score === total) { msg = "Perfect score! Legendary work!"; }
+  else if (run.score >= 3) { msg = "Great job! Read the explanations to master the rest."; }
+  else if (run.score >= 2) { msg = "Good effort. Try again to improve."; }
+  document.getElementById("rmsg").textContent = msg;
+  document.getElementById("rap").textContent = "+" + earned + " AP earned";
+  document.getElementById("rlevel").textContent = (after > before) ? "LEVEL UP! You are now Level " + after : "";
+  showView("results");
+}
+
+function retry() { startQuiz(run.subject); }
 
 function soon(label) {
   var t = document.getElementById("toast");
-  t.textContent = label + " - coming in the next slice";
+  t.textContent = (label.indexOf("reset") > -1) ? label : label + " - coming in a later slice";
   t.classList.add("show");
   clearTimeout(window._t);
   window._t = setTimeout(function () { t.classList.remove("show"); }, 2200);
 }
+
+renderHome();
+renderAchievements();
 </script>
 </body>
 </html>
