@@ -129,11 +129,11 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--navy);outline-o
 
   <h3>Choose your path</h3>
   <section class="cats">
-    <button class="cat" onclick="soon('SS1')">SS1</button>
-    <button class="cat" onclick="soon('SS2')">SS2</button>
-    <button class="cat" onclick="soon('SS3')">SS3</button>
-    <button class="cat" onclick="soon('WAEC Preparation')">WAEC Preparation</button>
-    <button class="cat" onclick="soon('JAMB Preparation')">JAMB Preparation</button>
+    <button class="cat" onclick="openFields('ss1')">SS1</button>
+    <button class="cat" onclick="openFields('ss2')">SS2</button>
+    <button class="cat" onclick="openFields('ss3')">SS3</button>
+    <button class="cat" onclick="openFields('waec')">WAEC Preparation</button>
+    <button class="cat" onclick="openFields('jamb')">JAMB Preparation</button>
   </section>
 
   <h3>Badges</h3>
@@ -146,7 +146,9 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--navy);outline-o
 <!-- SCIENCE OR ARTS -->
 <div class="view" id="v-fields">
   <button class="back" onclick="showView('home')">&larr; Back</button>
-  <h3 style="margin-top:0">What do you want to learn?</h3>
+  <p class="hint" style="margin-top:0">Your class decides your questions.</p>
+  <div class="swatches" id="classchips" style="margin-bottom:6px"></div>
+  <h3>What do you want to learn?</h3>
 
   <button class="field" onclick="openField('Science')">
     <div class="fpic sci">
@@ -184,6 +186,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--navy);outline-o
 <div class="view" id="v-subjects">
   <button class="back" onclick="showView('fields')">&larr; Back</button>
   <h3 style="margin-top:0" id="fieldtitle"></h3>
+  <p class="hint" id="subnote"></p>
   <div id="sublist"></div>
 </div>
 
@@ -248,11 +251,21 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--navy);outline-o
 <script>
 // ===== SETTINGS (easy to change later) =====
 var QUIZ_LENGTH = 10;      // questions per quiz
-var AP_PER_CORRECT = 3;    // AP for each correct answer
+// AP for each correct answer is set per class in CLASSES below
 var AP_QUEST_BONUS = 10;   // bonus AP for completing a quest (at least half correct)
 var MAX_LEVEL = 30;
 var MAX_AP = 20000;        // AP needed for the highest level
 var SAVE_KEY = "knowquest_v2";
+
+// Each class has its own questions. "ap" is the AP earned for each correct answer.
+var CLASSES = {
+  ss1: { label: "SS1", ap: 3, exam: false },
+  ss2: { label: "SS2", ap: 3, exam: false },
+  ss3: { label: "SS3", ap: 3, exam: false },
+  waec: { label: "WAEC Prep", ap: 5, exam: true },
+  jamb: { label: "JAMB Prep", ap: 5, exam: true }
+};
+var CLASS_ORDER = ["ss1", "ss2", "ss3", "waec", "jamb"];
 
 var SUBJECTS = [
   { id: "mathematics", name: "Mathematics", group: "Science" },
@@ -321,62 +334,22 @@ function photoMarkup(src, cls) {
   return '<img class="' + cls + '" src="' + src + '" alt="Your photo">';
 }
 
-// ===== SAMPLE QUESTIONS (used only until a subject has its own file in the questions folder) =====
-var SAMPLES = {
-  mathematics: [
-    { type: "Knowledge", q: "Simplify: 3x + 2x - x", options: ["4x", "5x", "6x", "3x"], answer: 0,
-      why: "Combine the numbers in front of x: 3 + 2 - 1 = 4, so the answer is 4x." },
-    { type: "Knowledge", q: "Solve for x: 2x + 5 = 17", options: ["5", "6", "7", "11"], answer: 1,
-      why: "Subtract 5 from both sides: 2x = 12. Then divide by 2: x = 6." },
-    { type: "Application", q: "A trader buys 5 books at N400 each and sells all of them for N2,500. What is the profit?", options: ["N100", "N500", "N2,000", "N4,500"], answer: 1,
-      why: "Cost = 5 x 400 = N2,000. Profit = selling price - cost = 2,500 - 2,000 = N500." },
-    { type: "Reasoning", q: "The sum of three consecutive whole numbers is 45. What is the largest of the three?", options: ["14", "15", "16", "17"], answer: 2,
-      why: "The middle number is 45 / 3 = 15. So the numbers are 14, 15 and 16. The largest is 16." }
-  ],
-  english: [
-    { type: "Knowledge", q: "Choose the word closest in meaning to 'abundant'.", options: ["Scarce", "Plentiful", "Tiny", "Costly"], answer: 1,
-      why: "Abundant means existing in large amounts, which is the same as plentiful. Scarce is the opposite." },
-    { type: "Knowledge", q: "Choose the correct option: Neither of the boys ___ present.", options: ["were", "was", "are", "have been"], answer: 1,
-      why: "'Neither' refers to one person at a time, so it takes a singular verb: 'was'." },
-    { type: "Application", q: "'The match was called off because of heavy rain.' What does 'called off' mean here?", options: ["Cancelled", "Started early", "Shouted at", "Repeated"], answer: 0,
-      why: "'Called off' means cancelled. Heavy rain is a common reason to cancel a match." },
-    { type: "Reasoning", q: "Which sentence uses 'their' correctly?", options: ["Their going to school.", "The students forgot their books.", "Their is a book here.", "The books are over their."], answer: 1,
-      why: "'Their' shows ownership (their books). 'There' is for places, and 'they're' means 'they are'." }
-  ],
-  biology: [
-    { type: "Knowledge", q: "Which part of a plant cell is the site of photosynthesis?", options: ["Nucleus", "Mitochondrion", "Chloroplast", "Cell wall"], answer: 2,
-      why: "Chloroplasts contain chlorophyll, which captures light energy for photosynthesis." },
-    { type: "Knowledge", q: "Which blood cells help the body fight infection?", options: ["Red blood cells", "White blood cells", "Platelets", "Plasma"], answer: 1,
-      why: "White blood cells defend the body against germs. Red cells carry oxygen, and platelets help blood clot." },
-    { type: "Application", q: "A plant is kept in a dark cupboard for a week and becomes pale and weak. Which process was prevented?", options: ["Photosynthesis", "Digestion", "Excretion", "Fermentation"], answer: 0,
-      why: "Without light, the plant cannot photosynthesise, so it cannot make food or keep its green colour." },
-    { type: "Reasoning", q: "Food chain: grass -> grasshopper -> frog -> snake. If all the frogs disappear, what will most likely happen to the grasshoppers first?", options: ["They will increase", "They will decrease", "They will stay the same", "They will disappear at once"], answer: 0,
-      why: "Frogs eat grasshoppers. With no frogs, fewer grasshoppers are eaten, so their number will rise at first." }
-  ]
-};
-
 // Question files in the "questions" folder call this to hand over their questions.
 var BANK = {};
 function registerQuestions(id, list) { BANK[id] = list; }
 
-function getQuestions(id, done) {
-  if (BANK[id]) { done(BANK[id]); return; }
+function getQuestions(key, done) {
+  if (BANK[key]) { done(BANK[key]); return; }
   var s = document.createElement("script");
-  s.src = "questions/" + id + ".js";
-  s.onload = function () {
-    if (BANK[id]) { done(BANK[id]); }
-    else if (SAMPLES[id]) { done(SAMPLES[id]); }
-    else { done(null); }
-  };
-  s.onerror = function () {
-    if (SAMPLES[id]) { done(SAMPLES[id]); } else { done(null); }
-  };
+  s.src = "questions/" + key + ".js";
+  s.onload = function () { done(BANK[key] || null); };
+  s.onerror = function () { done(null); };
   document.head.appendChild(s);
 }
 
 // ===== PLAYER DATA =====
 var DEFAULT_PLAYER = {
-  name: "Player One", ap: 0, quizzes: 0, badges: [], photo: "",
+  name: "Player One", ap: 0, quizzes: 0, badges: [], photo: "", cls: "ss1",
   avatar: { skin: 1, style: 0, hair: 0, outfit: 1, bg: 0 }
 };
 function clone(o) { return JSON.parse(JSON.stringify(o)); }
@@ -389,6 +362,7 @@ function loadPlayer() {
       for (var k in saved) { p[k] = saved[k]; }
     }
   } catch (e) {}
+  if (!CLASSES[p.cls]) { p.cls = "ss1"; }
   return p;
 }
 function savePlayer() {
@@ -436,6 +410,7 @@ function showView(name) {
   document.getElementById("v-" + name).classList.add("active");
   if (name === "home") { renderHome(); }
   if (name === "status") { renderStatus(); }
+  if (name === "fields") { renderClassChips(); }
   window.scrollTo(0, 0);
 }
 
@@ -498,9 +473,31 @@ function renderStatus() {
   });
 }
 
+// ===== CLASS CHOICE =====
+function renderClassChips() {
+  var box = document.getElementById("classchips");
+  box.innerHTML = "";
+  CLASS_ORDER.forEach(function (k) {
+    var b = document.createElement("button");
+    b.className = "chip" + (player.cls === k ? " sel" : "");
+    b.textContent = CLASSES[k].label;
+    b.onclick = function () { player.cls = k; savePlayer(); renderClassChips(); };
+    box.appendChild(b);
+  });
+}
+
+function openFields(k) {
+  player.cls = k;
+  savePlayer();
+  showView("fields");
+}
+
 // ===== SUBJECTS AND QUIZ =====
 function openField(group) {
-  document.getElementById("fieldtitle").textContent = group;
+  document.getElementById("fieldtitle").textContent = CLASSES[player.cls].label + " \u2022 " + group;
+  document.getElementById("subnote").textContent = CLASSES[player.cls].exam
+    ? "Exam-style practice questions written for KnowQuest. They are not official WAEC or JAMB past questions."
+    : "";
   var box = document.getElementById("sublist");
   box.innerHTML = "";
   SUBJECTS.forEach(function (s) {
@@ -519,10 +516,11 @@ function backToSubjects() {
 }
 
 function chooseSubject(s) {
+  var cls = player.cls;
   toast("Loading " + s.name + "...");
-  getQuestions(s.id, function (list) {
-    if (!list || !list.length) { toast(s.name + " questions are coming soon"); return; }
-    startQuiz(s, list);
+  getQuestions(s.id + "-" + cls, function (list) {
+    if (!list || !list.length) { toast(CLASSES[cls].label + " " + s.name + " questions are coming soon"); return; }
+    startQuiz(s, list, cls);
   });
 }
 
@@ -535,12 +533,12 @@ function shuffle(arr) {
   return a;
 }
 
-function startQuiz(subject, bank) {
+function startQuiz(subject, bank, cls) {
   var list = shuffle(bank).slice(0, QUIZ_LENGTH).map(function (q) {
     var opts = q.options.map(function (t, i) { return { t: t, c: i === q.answer }; });
     return { type: q.type, q: q.q, why: q.why, opts: shuffle(opts) };
   });
-  run = { subject: subject, bank: bank, list: list, idx: 0, score: 0, locked: false };
+  run = { subject: subject, bank: bank, cls: cls, list: list, idx: 0, score: 0, locked: false };
   showView("quiz");
   renderQuestion();
 }
@@ -597,7 +595,8 @@ function quitQuiz() {
 
 function finish() {
   var total = run.list.length, score = run.score;
-  var earned = score * AP_PER_CORRECT;
+  var perQ = CLASSES[run.cls].ap;
+  var earned = score * perQ;
   var completed = score * 2 >= total;
   if (completed) { earned += AP_QUEST_BONUS; }
   var levelBefore = getLevel(player.ap);
@@ -615,7 +614,7 @@ function finish() {
   });
   savePlayer();
 
-  document.getElementById("rsubject").textContent = run.subject.name;
+  document.getElementById("rsubject").textContent = CLASSES[run.cls].label + " \u2022 " + run.subject.name;
   document.getElementById("rscore").textContent = score + " / " + total;
   var msg = "Keep practising, you will get there!";
   if (score === total) { msg = "Perfect score! Legendary work!"; }
@@ -623,7 +622,7 @@ function finish() {
   else if (completed) { msg = "Good effort. Try again to improve."; }
   document.getElementById("rmsg").textContent = msg;
   document.getElementById("rap").textContent = "+" + earned + " AP earned";
-  var detail = score + " correct x " + AP_PER_CORRECT + " AP";
+  var detail = score + " correct x " + perQ + " AP";
   if (completed) { detail += " + " + AP_QUEST_BONUS + " AP quest bonus"; }
   else { detail += ". Get at least half right to earn the " + AP_QUEST_BONUS + " AP quest bonus."; }
   document.getElementById("rdetail").textContent = detail;
@@ -635,7 +634,7 @@ function finish() {
   showView("results");
 }
 
-function retry() { startQuiz(run.subject, run.bank); }
+function retry() { startQuiz(run.subject, run.bank, run.cls); }
 
 // ===== EDIT NAME, PHOTO AND AVATAR =====
 function openAvatar() {
