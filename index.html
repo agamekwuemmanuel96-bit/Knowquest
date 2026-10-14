@@ -5,85 +5,91 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KnowQuest - Legends of Knowledge</title>
 <style>
-:root{--bg:#0b2a7a;--bg2:#071a4d;--ink:#0b1b4d;--muted:#5b6b94;--line:#d6defa;--red:#e11d48;--green:#22c55e;--onGreen:#052e16;--gold:#fbbf24}
+:root{--bg1:#f7faff;--bg2:#e6efff;--line:#d5e1fb;--ink:#0b1b4d;--muted:#5a6a93;--navy:#0b2a7a;--yellow:#fbbf24;--yellowSoft:#fff3c4;--blueSoft:#dbe8ff;--ok:#16a34a;--okSoft:#e3f7ea;--bad:#dc2626;--badSoft:#fde8e8}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg2) 0%,var(--bg) 70%);color:#fff;font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.4}
+body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 100%) fixed;color:var(--ink);font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.4}
 .wrap{max-width:480px;margin:0 auto;padding:16px 16px 48px}
 .view{display:none}
 .view.active{display:block}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-header h1{margin:0;font-size:26px}
-header small{display:block;color:#c7d4ff;font-size:13px}
-.icon-btn{background:#fff;border:none;color:var(--ink);border-radius:12px;width:44px;height:44px;font-size:20px}
-.card{background:#fff;color:var(--ink);border-radius:18px;padding:16px;margin-bottom:14px}
+header h1{margin:0;font-size:26px;color:var(--navy)}
+header small{display:block;color:var(--muted);font-size:13px}
+.icon-btn{background:var(--navy);border:none;color:#fff;border-radius:12px;width:44px;height:44px;font-size:20px}
+.card{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
 .profile{display:flex;gap:14px;align-items:center}
 .avatar-btn{position:relative;border:none;background:none;padding:0;flex-shrink:0;width:88px;height:88px}
-.avatar{width:88px;height:88px;border-radius:18px;display:block}
-.pencil{position:absolute;right:-4px;bottom:-4px;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-size:14px;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+.avatar{width:88px;height:88px;border-radius:18px;display:block;object-fit:cover}
+.pencil{position:absolute;right:-4px;bottom:-4px;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:14px;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
 .pinfo{flex:1;min-width:0}
 .pinfo h2{margin:0;font-size:19px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rank{color:var(--red);font-weight:bold;font-size:14px;margin:2px 0 8px}
-.bar{height:12px;background:#e6ecff;border-radius:8px;overflow:hidden}
-.fill{height:100%;background:var(--red);width:0;transition:width .4s;border-radius:8px}
+.rank{display:inline-block;background:var(--yellow);color:var(--ink);font-weight:bold;font-size:13px;border-radius:10px;padding:3px 10px;margin:4px 0 8px}
+.bar{height:12px;background:var(--blueSoft);border-radius:8px;overflow:hidden}
+.fill{height:100%;background:var(--yellow);width:0;transition:width .4s;border-radius:8px}
 .aptext{font-size:12px;color:var(--muted);margin-top:6px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
-.stat{background:#fff;color:var(--ink);border-radius:16px;padding:12px;text-align:center;border:none;font-family:inherit}
-.stat b{display:block;font-size:22px}
-.stat span{font-size:12px;color:var(--muted)}
-.stat.status{background:var(--red);color:#fff;cursor:pointer}
-.stat.status b{font-size:20px}
-.stat.status span{color:#ffe4ea}
-.main-btn{width:100%;background:var(--green);color:var(--onGreen);border:none;border-radius:14px;padding:16px;font-size:18px;font-weight:bold;margin-bottom:12px}
+.edit-link{background:none;border:none;color:var(--navy);text-decoration:underline;font-size:13px;font-weight:bold;padding:8px 0 0}
+.status-btn{display:flex;justify-content:space-between;align-items:center;width:100%;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:14px 16px;margin-bottom:14px;font-size:15px}
+.status-btn b{color:var(--yellow);font-size:18px}
+.main-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:16px;font-size:18px;font-weight:bold;margin-bottom:12px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
-.sec-btn{background:#fff;color:var(--ink);border:none;border-bottom:4px solid var(--green);border-radius:12px;padding:12px 4px;font-size:13px;font-weight:bold}
+.sec-btn{background:var(--navy);color:#fff;border:none;border-radius:12px;padding:12px 4px;font-size:13px;font-weight:bold}
 .wide-btn{width:100%;padding:14px;font-size:15px;margin-bottom:10px}
-h3{margin:18px 0 10px;font-size:17px;color:#fff}
+.ghost-btn{width:100%;background:#fff;color:var(--navy);border:2px solid var(--navy);border-radius:12px;padding:12px;font-size:15px;font-weight:bold;margin-bottom:10px}
+h3{margin:18px 0 10px;font-size:17px;color:var(--navy)}
 .cats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.cat{background:#fff;color:var(--ink);border:none;border-left:6px solid var(--red);border-radius:14px;padding:16px 8px;font-size:15px;font-weight:bold}
+.cat{background:#fff;color:var(--navy);border:1px solid var(--line);border-left:6px solid var(--yellow);border-radius:14px;padding:16px 8px;font-size:15px;font-weight:bold}
 .cat:last-child{grid-column:span 2}
 .ach{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
 .ach:last-child{border-bottom:none}
 .badge{font-size:26px}
 .ach small{display:block;color:var(--muted)}
 .empty{color:var(--muted);font-size:14px}
-.note{font-size:12px;color:#c7d4ff;text-align:center;margin-top:20px}
-.linkbtn{background:none;border:none;color:#c7d4ff;text-decoration:underline;font-size:12px;display:block;margin:8px auto 0}
-.back{background:#fff;border:none;color:var(--ink);border-radius:12px;padding:10px 14px;font-size:14px;font-weight:bold;margin-bottom:14px}
-.subject{width:100%;text-align:left;background:#fff;color:var(--ink);border:none;border-radius:14px;padding:14px 16px;margin-bottom:10px;font-size:17px;font-weight:bold}
-.subject.sci{border-left:6px solid #2f6bff}
-.subject.art{border-left:6px solid var(--red)}
-.qmeta{display:flex;justify-content:space-between;color:#c7d4ff;font-size:13px;margin-bottom:8px}
-.qtype{color:var(--gold);font-weight:bold}
-.qbar{height:10px;background:rgba(255,255,255,.25);border-radius:8px;overflow:hidden;margin-bottom:14px}
-.qbar .fill{background:var(--green)}
+.note{font-size:12px;color:var(--muted);text-align:center;margin-top:20px}
+.linkbtn{background:none;border:none;color:var(--muted);text-decoration:underline;font-size:12px;display:block;margin:8px auto 0}
+.back{background:#fff;border:1px solid var(--line);color:var(--navy);border-radius:12px;padding:10px 14px;font-size:14px;font-weight:bold;margin-bottom:14px}
+.field{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px}
+.fpic{width:96px;height:96px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.fpic svg{width:80px;height:80px}
+.fpic.sci{background:var(--blueSoft)}
+.fpic.art{background:var(--yellowSoft)}
+.ftxt b{display:block;font-size:20px;color:var(--navy);margin-bottom:4px}
+.ftxt small{color:var(--muted);font-size:13px;display:block}
+.subject{width:100%;text-align:left;background:#fff;color:var(--navy);border:1px solid var(--line);border-left:6px solid var(--yellow);border-radius:14px;padding:14px 16px;margin-bottom:10px;font-size:17px;font-weight:bold}
+.qmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:8px}
+.qtype{color:#8a6100;font-weight:bold}
+.qbar{height:10px;background:var(--blueSoft);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.qbar .fill{background:var(--navy)}
 .qtext{font-size:18px;font-weight:bold}
 .opt{width:100%;text-align:left;background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;font-size:16px}
-.opt.correct{border-color:var(--green);background:#dcfce7}
-.opt.wrong{border-color:var(--red);background:#ffe4e9}
-.explain{display:none;background:#fff8e1;color:var(--ink);border-left:5px solid var(--gold);padding:12px;border-radius:8px;margin:6px 0 12px;font-size:15px}
-.big{font-size:46px;font-weight:bold;text-align:center;margin:6px 0;color:var(--red)}
+.opt.correct{border-color:var(--ok);background:var(--okSoft)}
+.opt.wrong{border-color:var(--bad);background:var(--badSoft)}
+.explain{display:none;background:var(--yellowSoft);color:var(--ink);border-left:5px solid var(--yellow);padding:12px;border-radius:8px;margin:6px 0 12px;font-size:15px}
+.big{font-size:46px;font-weight:bold;text-align:center;margin:6px 0;color:var(--navy)}
 .center{text-align:center}
 .apline{color:var(--ink);font-size:20px;font-weight:bold;text-align:center;margin:6px 0}
 .small{font-size:13px;color:var(--muted);text-align:center;margin:4px 0}
-.up{color:var(--red);font-weight:bold;text-align:center;margin-top:8px}
-.rk{display:flex;justify-content:space-between;align-items:center;background:#fff;color:var(--ink);border-radius:14px;padding:14px 16px;margin-bottom:10px;border:3px solid #fff}
+.up{color:var(--navy);font-weight:bold;text-align:center;margin-top:8px}
+.rk{display:flex;justify-content:space-between;align-items:center;background:#fff;color:var(--ink);border-radius:14px;padding:14px 16px;margin-bottom:10px;border:2px solid var(--line)}
 .rk b{font-size:17px}
 .rk small{display:block;color:var(--muted)}
-.rk.here{border-color:var(--red)}
-.rk .tag{background:var(--red);color:#fff;border-radius:10px;padding:4px 10px;font-size:12px;font-weight:bold}
-.avprev{width:150px;height:150px;margin:0 auto 12px}
-.avprev svg{width:150px;height:150px;border-radius:24px;display:block}
-.nameinput{width:100%;border:2px solid var(--line);border-radius:12px;padding:12px;font-size:16px;text-align:center;color:var(--ink);font-family:inherit}
+.rk.here{border-color:var(--yellow);background:var(--yellowSoft)}
+.rk .tag{background:var(--navy);color:#fff;border-radius:10px;padding:4px 10px;font-size:12px;font-weight:bold}
+.avprev{width:150px;height:150px;margin:0 auto 14px}
+.avprev .avatar{width:150px;height:150px;border-radius:24px}
+.fieldlabel{display:block;font-weight:bold;margin-bottom:6px}
+.nameinput{width:100%;border:2px solid var(--line);border-radius:12px;padding:12px;font-size:16px;color:var(--ink);font-family:inherit}
+.photo-row{display:flex;gap:10px;margin-top:12px}
+.photo-row button{flex:1}
 .optlabel{font-weight:bold;margin:12px 0 8px}
 .optlabel:first-child{margin-top:0}
 .swatches{display:flex;flex-wrap:wrap;gap:10px}
 .sw{width:42px;height:42px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line)}
-.sw.sel{box-shadow:0 0 0 3px var(--red)}
+.sw.sel{box-shadow:0 0 0 3px var(--navy)}
 .chip{background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:20px;padding:8px 14px;font-size:14px;font-weight:bold}
-.chip.sel{border-color:var(--red);background:#ffe4e9}
+.chip.sel{border-color:var(--navy);background:var(--blueSoft)}
+.hint{font-size:13px;color:var(--muted);margin:0 0 10px}
 button{cursor:pointer;font-family:inherit}
-button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fff;color:var(--ink);padding:12px 18px;border-radius:12px;font-size:14px;font-weight:bold;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center}
+button:focus-visible,input:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:bold;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center}
 #toast.show{opacity:1}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -102,21 +108,19 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
   </header>
 
   <section class="card profile">
-    <button class="avatar-btn" id="avhome" aria-label="Edit your avatar" onclick="openAvatar()"></button>
+    <button class="avatar-btn" id="avhome" aria-label="Edit your name and photo" onclick="openAvatar()"></button>
     <div class="pinfo">
       <h2 id="pname"></h2>
       <div class="rank" id="prank"></div>
       <div class="bar" role="progressbar" aria-label="Progress to next level" id="pbar"><div class="fill" id="pfill"></div></div>
       <div class="aptext" id="aptext"></div>
+      <button class="edit-link" onclick="openAvatar()">Edit name and photo</button>
     </div>
   </section>
 
-  <section class="stats">
-    <div class="stat"><b id="streak"></b><span>&#128293; Day streak</span></div>
-    <button class="stat status" onclick="showView('status')"><b id="statusname"></b><span>Your status &rsaquo;</span></button>
-  </section>
+  <button class="status-btn" onclick="showView('status')"><span>Your status</span><b id="statusname"></b><span>&rsaquo;</span></button>
 
-  <button class="main-btn" onclick="openSubjects()">&#9876;&#65039; Start Learning</button>
+  <button class="main-btn" onclick="showView('fields')">&#9876;&#65039; Start Learning</button>
   <div class="grid3">
     <button class="sec-btn" onclick="soon('Daily Quest')">Daily Quest</button>
     <button class="sec-btn" onclick="soon('Challenge')">Challenge</button>
@@ -139,10 +143,47 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
   <button class="linkbtn" onclick="resetProgress()">Reset my progress</button>
 </div>
 
+<!-- SCIENCE OR ARTS -->
+<div class="view" id="v-fields">
+  <button class="back" onclick="showView('home')">&larr; Back</button>
+  <h3 style="margin-top:0">What do you want to learn?</h3>
+
+  <button class="field" onclick="openField('Science')">
+    <div class="fpic sci">
+      <svg viewBox="0 0 100 100" role="img" aria-label="Atom">
+        <g fill="none" stroke="#0b2a7a" stroke-width="3">
+          <ellipse cx="50" cy="50" rx="40" ry="15"/>
+          <ellipse cx="50" cy="50" rx="40" ry="15" transform="rotate(60 50 50)"/>
+          <ellipse cx="50" cy="50" rx="40" ry="15" transform="rotate(120 50 50)"/>
+        </g>
+        <circle cx="50" cy="50" r="9" fill="#fbbf24"/>
+        <circle cx="90" cy="50" r="5" fill="#0b2a7a"/>
+        <circle cx="70" cy="84.6" r="5" fill="#0b2a7a"/>
+        <circle cx="30" cy="84.6" r="5" fill="#0b2a7a"/>
+      </svg>
+    </div>
+    <div class="ftxt"><b>Science</b><small>Mathematics, Physics, Chemistry, Biology, Agricultural Science</small></div>
+  </button>
+
+  <button class="field" onclick="openField('Arts')">
+    <div class="fpic art">
+      <svg viewBox="0 0 100 100" role="img" aria-label="Painter's palette">
+        <ellipse cx="50" cy="54" rx="42" ry="34" fill="#ffffff" stroke="#0b2a7a" stroke-width="3"/>
+        <circle cx="66" cy="68" r="7" fill="#fff3c4" stroke="#0b2a7a" stroke-width="3"/>
+        <circle cx="30" cy="42" r="7" fill="#0b2a7a"/>
+        <circle cx="48" cy="30" r="7" fill="#fbbf24"/>
+        <circle cx="68" cy="38" r="7" fill="#e11d48"/>
+        <circle cx="28" cy="62" r="7" fill="#16a34a"/>
+      </svg>
+    </div>
+    <div class="ftxt"><b>Arts</b><small>English, Literature, Government, Economics, Geography, Civic Education, Commerce</small></div>
+  </button>
+</div>
+
 <!-- SUBJECTS -->
 <div class="view" id="v-subjects">
-  <button class="back" onclick="showView('home')">&larr; Back</button>
-  <h3 style="margin-top:0">Choose a subject</h3>
+  <button class="back" onclick="showView('fields')">&larr; Back</button>
+  <h3 style="margin-top:0" id="fieldtitle"></h3>
   <div id="sublist"></div>
 </div>
 
@@ -169,8 +210,8 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
     <div class="up" id="rbadge"></div>
   </div>
   <button class="main-btn" onclick="retry()">Try again</button>
-  <button class="sec-btn wide-btn" onclick="openSubjects()">Choose another subject</button>
-  <button class="sec-btn wide-btn" onclick="showView('home')">Back to dashboard</button>
+  <button class="ghost-btn" onclick="backToSubjects()">Choose another subject</button>
+  <button class="ghost-btn" onclick="showView('home')">Back to dashboard</button>
 </div>
 
 <!-- STATUS -->
@@ -181,15 +222,24 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-o
   <p class="note">There are 30 levels. Level 30 needs 20,000 AP.</p>
 </div>
 
-<!-- AVATAR -->
+<!-- EDIT NAME, PHOTO, AVATAR -->
 <div class="view" id="v-avatar">
   <button class="back" onclick="showView('home')">&larr; Back</button>
   <div class="card">
     <div id="avprev" class="avprev"></div>
-    <input id="avname" class="nameinput" maxlength="16" aria-label="Your username" placeholder="Your username">
+    <label class="fieldlabel" for="avname">Your name</label>
+    <input id="avname" class="nameinput" maxlength="16" placeholder="Type your name">
+    <div class="photo-row">
+      <button class="sec-btn" onclick="document.getElementById('photoinput').click()">Upload photo</button>
+      <button class="ghost-btn" id="rmphoto" style="display:none;margin-bottom:0" onclick="removePhoto()">Remove photo</button>
+    </div>
+    <input type="file" id="photoinput" accept="image/*" style="display:none" onchange="handlePhoto(this)">
   </div>
-  <div class="card" id="avopts"></div>
-  <button class="main-btn" onclick="saveAvatar()">Save avatar</button>
+  <div class="card">
+    <p class="hint" id="avhint"></p>
+    <div id="avopts"></div>
+  </div>
+  <button class="main-btn" onclick="saveAvatar()">Save</button>
 </div>
 
 </div>
@@ -210,13 +260,13 @@ var SUBJECTS = [
   { id: "chemistry", name: "Chemistry", group: "Science" },
   { id: "biology", name: "Biology", group: "Science" },
   { id: "agric", name: "Agricultural Science", group: "Science" },
-  { id: "english", name: "English Language", group: "Arts & Social" },
-  { id: "literature", name: "Literature in English", group: "Arts & Social" },
-  { id: "government", name: "Government", group: "Arts & Social" },
-  { id: "economics", name: "Economics", group: "Arts & Social" },
-  { id: "geography", name: "Geography", group: "Arts & Social" },
-  { id: "civic", name: "Civic Education", group: "Arts & Social" },
-  { id: "commerce", name: "Commerce", group: "Arts & Social" }
+  { id: "english", name: "English Language", group: "Arts" },
+  { id: "literature", name: "Literature in English", group: "Arts" },
+  { id: "government", name: "Government", group: "Arts" },
+  { id: "economics", name: "Economics", group: "Arts" },
+  { id: "geography", name: "Geography", group: "Arts" },
+  { id: "civic", name: "Civic Education", group: "Arts" },
+  { id: "commerce", name: "Commerce", group: "Arts" }
 ];
 
 var RANKS = [
@@ -235,16 +285,16 @@ var BADGES = [
     test: function (p, r) { return p.quizzes >= 1; } },
   { id: "perfect", icon: "\uD83C\uDFAF", title: "Perfect Score", text: "Got every question right",
     test: function (p, r) { return r.score === r.total; } },
-  { id: "streak3", icon: "\uD83D\uDD25", title: "On Fire", text: "Learned 3 days in a row",
-    test: function (p, r) { return p.streak >= 3; } },
   { id: "level5", icon: "\u2B50", title: "Rising Star", text: "Reached Level 5",
-    test: function (p, r) { return getLevel(p.ap) >= 5; } }
+    test: function (p, r) { return getLevel(p.ap) >= 5; } },
+  { id: "ten", icon: "\uD83D\uDCDA", title: "Dedicated", text: "Finished 10 quizzes",
+    test: function (p, r) { return p.quizzes >= 10; } }
 ];
 
 // ===== AVATAR PARTS =====
 var SKINS = ["#f3d2b3", "#e0a977", "#c68a5a", "#9a6137", "#7a4a2a", "#523019"];
 var HAIRS = ["#1b1b1b", "#4b2e1e", "#7a3b1e", "#d4a017", "#2563eb", "#dc2626"];
-var OUTFITS = ["#ffffff", "#22c55e", "#2563eb", "#dc2626", "#f59e0b", "#7c3aed"];
+var OUTFITS = ["#ffffff", "#fbbf24", "#2563eb", "#dc2626", "#16a34a", "#7c3aed"];
 var BGS = ["#1e3a8a", "#7f1d1d", "#14532d", "#4c1d95", "#0f766e", "#334155"];
 var STYLES = ["Short", "Afro", "Long", "Bun", "Bald"];
 
@@ -265,6 +315,10 @@ function avatarMarkup(a, cls) {
   s += '<circle cx="43" cy="44" r="2.2" fill="#1b1b1b"/><circle cx="57" cy="44" r="2.2" fill="#1b1b1b"/>';
   s += '<path d="M43 52 Q50 57 57 52" stroke="#1b1b1b" stroke-width="2" fill="none" stroke-linecap="round"/>';
   return '<svg class="' + cls + '" viewBox="0 0 100 100" role="img" aria-label="Your avatar">' + s + '</svg>';
+}
+
+function photoMarkup(src, cls) {
+  return '<img class="' + cls + '" src="' + src + '" alt="Your photo">';
 }
 
 // ===== SAMPLE QUESTIONS (used only until a subject has its own file in the questions folder) =====
@@ -322,7 +376,7 @@ function getQuestions(id, done) {
 
 // ===== PLAYER DATA =====
 var DEFAULT_PLAYER = {
-  name: "Player One", ap: 0, streak: 0, lastDay: "", quizzes: 0, badges: [],
+  name: "Player One", ap: 0, quizzes: 0, badges: [], photo: "",
   avatar: { skin: 1, style: 0, hair: 0, outfit: 1, bg: 0 }
 };
 function clone(o) { return JSON.parse(JSON.stringify(o)); }
@@ -338,14 +392,19 @@ function loadPlayer() {
   return p;
 }
 function savePlayer() {
-  try { localStorage.setItem(SAVE_KEY, JSON.stringify(player)); } catch (e) {}
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(player));
+  } catch (e) {
+    toast("Could not save on this phone. Storage may be full.");
+  }
 }
 var player = loadPlayer();
 var run = null;
 var draft = null;
+var draftPhoto = "";
 
 function resetProgress() {
-  if (!confirm("Reset all your progress on this phone?")) { return; }
+  if (!confirm("Reset all your progress, name and photo on this phone?")) { return; }
   try { localStorage.removeItem(SAVE_KEY); } catch (e) {}
   player = clone(DEFAULT_PLAYER);
   renderHome();
@@ -370,22 +429,6 @@ function getRank(level) {
   return r;
 }
 
-// ===== STREAK =====
-function dayString(offset) {
-  var d = new Date();
-  d.setDate(d.getDate() + offset);
-  return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-}
-function currentStreak() {
-  if (player.lastDay === dayString(0) || player.lastDay === dayString(-1)) { return player.streak; }
-  return 0;
-}
-function updateStreak() {
-  if (player.lastDay === dayString(0)) { return; }
-  if (player.lastDay === dayString(-1)) { player.streak += 1; } else { player.streak = 1; }
-  player.lastDay = dayString(0);
-}
-
 // ===== SCREENS =====
 function showView(name) {
   var views = document.querySelectorAll(".view");
@@ -408,13 +451,13 @@ function renderHome() {
     pct = Math.round((player.ap - s) / (n - s) * 100);
     txt = player.ap + " AP \u2022 " + (n - player.ap) + " AP to Level " + (level + 1);
   }
-  document.getElementById("avhome").innerHTML = avatarMarkup(player.avatar, "avatar") + '<span class="pencil">&#9998;</span>';
+  var pic = player.photo ? photoMarkup(player.photo, "avatar") : avatarMarkup(player.avatar, "avatar");
+  document.getElementById("avhome").innerHTML = pic + '<span class="pencil">&#9998;</span>';
   document.getElementById("pname").textContent = player.name;
   document.getElementById("prank").textContent = "Level " + level + " \u2022 " + rank.name;
   document.getElementById("pfill").style.width = pct + "%";
   document.getElementById("pbar").setAttribute("aria-valuenow", pct);
   document.getElementById("aptext").textContent = txt;
-  document.getElementById("streak").textContent = currentStreak();
   document.getElementById("statusname").textContent = rank.name;
   renderBadges();
 }
@@ -456,23 +499,23 @@ function renderStatus() {
 }
 
 // ===== SUBJECTS AND QUIZ =====
-function openSubjects() {
+function openField(group) {
+  document.getElementById("fieldtitle").textContent = group;
   var box = document.getElementById("sublist");
   box.innerHTML = "";
-  ["Science", "Arts & Social"].forEach(function (g) {
-    var h = document.createElement("h3");
-    h.textContent = g;
-    box.appendChild(h);
-    SUBJECTS.forEach(function (s) {
-      if (s.group !== g) { return; }
-      var b = document.createElement("button");
-      b.className = "subject " + (g === "Science" ? "sci" : "art");
-      b.textContent = s.name;
-      b.onclick = function () { chooseSubject(s); };
-      box.appendChild(b);
-    });
+  SUBJECTS.forEach(function (s) {
+    if (s.group !== group) { return; }
+    var b = document.createElement("button");
+    b.className = "subject";
+    b.textContent = s.name;
+    b.onclick = function () { chooseSubject(s); };
+    box.appendChild(b);
   });
   showView("subjects");
+}
+
+function backToSubjects() {
+  if (run) { openField(run.subject.group); } else { showView("fields"); }
 }
 
 function chooseSubject(s) {
@@ -547,8 +590,9 @@ function nextQ() {
 }
 
 function quitQuiz() {
+  var group = run.subject.group;
   run = null;
-  showView("subjects");
+  openField(group);
 }
 
 function finish() {
@@ -560,7 +604,6 @@ function finish() {
   var rankBefore = getRank(levelBefore).name;
   player.ap += earned;
   player.quizzes += 1;
-  updateStreak();
   var levelAfter = getLevel(player.ap);
   var rankAfter = getRank(levelAfter).name;
   var fresh = [];
@@ -594,16 +637,22 @@ function finish() {
 
 function retry() { startQuiz(run.subject, run.bank); }
 
-// ===== AVATAR EDITOR =====
+// ===== EDIT NAME, PHOTO AND AVATAR =====
 function openAvatar() {
   draft = clone(player.avatar);
+  draftPhoto = player.photo || "";
   document.getElementById("avname").value = player.name;
   renderAvatar();
   showView("avatar");
 }
 
 function renderAvatar() {
-  document.getElementById("avprev").innerHTML = avatarMarkup(draft, "avatar");
+  var prev = draftPhoto ? photoMarkup(draftPhoto, "avatar") : avatarMarkup(draft, "avatar");
+  document.getElementById("avprev").innerHTML = prev;
+  document.getElementById("rmphoto").style.display = draftPhoto ? "block" : "none";
+  document.getElementById("avhint").textContent = draftPhoto
+    ? "Your photo is showing. Remove it to use a built avatar instead."
+    : "No photo? Build your own avatar below.";
   var box = document.getElementById("avopts");
   box.innerHTML = "";
   addSwatches(box, "Skin tone", "skin", SKINS);
@@ -611,6 +660,39 @@ function renderAvatar() {
   addSwatches(box, "Hair colour", "hair", HAIRS);
   addSwatches(box, "Outfit", "outfit", OUTFITS);
   addSwatches(box, "Background", "bg", BGS);
+}
+
+function handlePhoto(input) {
+  var file = input.files && input.files[0];
+  if (!file) { return; }
+  if (file.type.indexOf("image/") !== 0) { toast("Please choose a picture"); input.value = ""; return; }
+  var reader = new FileReader();
+  reader.onload = function () {
+    var img = new Image();
+    img.onload = function () {
+      // Shrink the photo to a small square so it saves quickly and uses little space
+      var size = 160;
+      var c = document.createElement("canvas");
+      c.width = size;
+      c.height = size;
+      var m = Math.min(img.width, img.height);
+      var sx = (img.width - m) / 2;
+      var sy = (img.height - m) / 2;
+      c.getContext("2d").drawImage(img, sx, sy, m, m, 0, 0, size, size);
+      draftPhoto = c.toDataURL("image/jpeg", 0.8);
+      renderAvatar();
+      toast("Photo added. Tap Save to keep it.");
+    };
+    img.onerror = function () { toast("That picture could not be opened. Try another one."); };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+  input.value = "";
+}
+
+function removePhoto() {
+  draftPhoto = "";
+  renderAvatar();
 }
 
 function addLabel(box, text) {
@@ -653,9 +735,10 @@ function saveAvatar() {
   var name = document.getElementById("avname").value.replace(/^\s+|\s+$/g, "");
   player.name = name ? name.substring(0, 16) : "Player One";
   player.avatar = draft;
+  player.photo = draftPhoto;
   savePlayer();
   showView("home");
-  toast("Avatar saved");
+  toast("Saved");
 }
 
 // ===== MESSAGES =====
